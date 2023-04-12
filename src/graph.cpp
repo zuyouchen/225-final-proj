@@ -76,9 +76,9 @@ void Graph::addEdge(string name1, string name2, double weight) {
 
 void Graph::print() {
     for (Node * node : nodes) {
-        cout << node -> name << ": " << node -> time << "\t | Related: "; 
+        cout << node -> name << ": " << node -> time << "\t | Related:"; 
         for (auto& pair : node -> related) {
-            cout << pair.first -> name << ": " << pair.second;
+            cout << " " << pair.first -> name << ": " << pair.second;
         }
         cout << endl;
     }
