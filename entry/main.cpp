@@ -5,5 +5,7 @@ using namespace std;
 
 int main() {
     cout << "Main function running" << endl;
+    Graph g("data/nodes.csv", "data/prereqs.csv");
+    g.print();
     return 0;
 }
