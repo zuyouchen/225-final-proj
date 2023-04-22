@@ -7,8 +7,8 @@
 using namespace std;
 
 class Graph {
-    private:
-
+    public:
+        // Struct representing an individual node or "boss"
         struct Node {
             string name;
             double time = 0;
@@ -16,9 +16,6 @@ class Graph {
             map<Node*, double> related;
         };
 
-        vector<Node*> nodes;
-
-    public:
         Graph(); // default constructor
 
         Graph(string nodes_file, string prereqs_file); // parameterized constructor
@@ -32,7 +29,7 @@ class Graph {
         // ? Visualization  function ?
 
         // any other helpers and whatnot
-
+        
         // Helper functions for the construction of the graph
         void addNode(string name, double time);
 
@@ -40,4 +37,10 @@ class Graph {
 
         // Print our graph to check we have it populated
         void print();
+
+        // Return our nodes list for testing purposes
+        vector<Node*> getNodes() {return nodes;};
+    
+    private:
+        vector<Node*> nodes;
 };

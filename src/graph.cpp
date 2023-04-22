@@ -4,7 +4,7 @@ Graph::Graph() {}
 
 Graph::Graph(string nodes_file, string prereqs_file) {
     // TODO: account for prereqs, decide on this
-    cout << prereqs_file << endl;
+    ifstream prereqs(prereqs_file);
 
     ifstream infile(nodes_file);
     if (!infile.is_open()) {
