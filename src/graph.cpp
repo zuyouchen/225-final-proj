@@ -49,6 +49,12 @@ Graph::Graph(string nodes_file, string prereqs_file) {
     }
 }
 
+Graph::~Graph() {
+    for (size_t i = 0; i < nodes.size(); ++i) {
+        delete nodes.at(i);
+    }
+}
+
 void Graph::addNode(string name, double time) {
     Node * to_add = new Node; 
     to_add -> name = name; 
@@ -84,9 +90,9 @@ void Graph::print() {
     }
 }
 
-vector<Graph::Node> Graph::Dijkstra(Node start) {
+vector<Graph::Node*> Graph::Dijkstra(Node* start) {
     // dummy code just to it can compile
-    vector<Node> to_return;
+    vector<Node*> to_return;
     to_return.push_back(start);
     return to_return;
 }
@@ -99,10 +105,20 @@ vector<Graph::Node> Graph::SSSP(Node start, Node end) {
     return to_return;
 }
 
-vector<Graph::Node> Graph::BFS(Node start) {
-    // dummy code just to it can compile
-    vector<Node> to_return;
-    to_return.push_back(start);
+vector<Graph::Node*> Graph::BFS(Node* start) {
+    vector<Node*> to_return;
+    queue<Node*> q;
+    q.push(start);
+    while (!q.empty()) {
+        Node* top = q.front();
+        q.pop();
+        if (find(to_return.begin(), to_return.end(), top) == to_return.end()) {
+            to_return.push_back(top);
+        }
+        for (auto& it : top->related) {
+            q.push(it.first);
+        }
+    }
     return to_return;
 }
 

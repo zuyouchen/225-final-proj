@@ -4,6 +4,8 @@
 #include <map>
 #include <fstream>
 #include <sstream>
+#include <queue>
+#include <algorithm>
 using namespace std;
 
 class Graph {
@@ -20,15 +22,15 @@ class Graph {
 
         Graph(string nodes_file, string prereqs_file); // parameterized constructor
 
-        vector<Node> Dijkstra(Node start);
+        ~Graph();
+
+        vector<Node*> Dijkstra(Node* start);
 
         vector<Node> SSSP(Node start, Node end);
 
-        vector<Node> BFS(Node start);
+        vector<Node*> BFS(Node* start);
 
         // ? Visualization  function ?
-
-        // any other helpers and whatnot
         
         // Helper functions for the construction of the graph
         void addNode(string name, double time);
