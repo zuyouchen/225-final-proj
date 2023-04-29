@@ -28,7 +28,7 @@ Paper on Dijkstra’s and SSSP: [https://www.researchgate.net/publication/273264
 Erikson’s Textbook:
 [https://jeffe.cs.illinois.edu/teaching/algorithms/#book](https://www.researchgate.net/publication/273264449_Understanding_Dijkstra_Algorithm)
 
-Section 8.9 of Paper on Floyd-Warshall ("Floyd-Warshall algorithm for all pairs shortest paths"): [http://www.ieor.berkeley.edu/~hochbaum/files/ieor266-2014.pdf] (http://www.ieor.berkeley.edu/~hochbaum/files/ieor266-2014.pdf)
+Floyd-Warshall Section 8.9 of larger paper, section titled "Floyd-Warshall algorithm for all pairs shortest paths": [http://www.ieor.berkeley.edu/~hochbaum/files/ieor266-2014.pdf] (http://www.ieor.berkeley.edu/~hochbaum/files/ieor266-2014.pdf)
 
 **Function Inputs**
 
