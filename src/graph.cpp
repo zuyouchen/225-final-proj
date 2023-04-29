@@ -175,6 +175,43 @@ vector<Graph::Node *> Graph::Dijkstra(Node *start)
     return shortest_path;
 }
 
+vector<vector<double>> Graph::FloydWarshall()
+{
+    vector<vector<double>> adj_matrix = edgeListToAdjMatrix(nodes);
+    int n = nodes.size();
+    vector<vector<double>> dist(n, vector<double>(n, INF));
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if (i == j)
+            {
+                dist[i][j] = INF;
+            }
+            else if (adj_matrix[i][j] != 0)
+            {
+                dist[i][j] = adj_matrix[i][j];
+            }
+        }
+    }
+
+    for (int k = 0; k < n; k++)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                if (dist[i][k] != INF && dist[k][j] != INF && dist[i][k] + dist[k][j] < dist[i][j])
+                {
+                    dist[i][j] = dist[i][k] + dist[k][j];
+                }
+            }
+        }
+    }
+    return dist;
+}
+
 vector<Graph::Node> Graph::SSSP(Node start, Node end)
 {
     // dummy code just to it can compile
