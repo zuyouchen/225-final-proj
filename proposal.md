@@ -3,8 +3,8 @@ How can we leverage a graph representation of Elden Ring’s bosses, graph trave
 ## Major Deliverables
 1. **Graph Structure** - We will be representing the Elden Ring map as a weighted and directed graph where the nodes are each particular boss location and the edges are the travel times from boss to boss
 2. **Breadth-First-Search Traversal** - To answer the question of the shortest time to complete every boss in the game, we can utilize a BFS to traverse through the graph and visit every node.  
-3. **SSSP Problem** - We want to know the shortest path between any two bosses A and B. So the shortest path between any pair. This can be interpreted as “splits” of a speedrun, and is a modified version of SSSP as we are changing the single-source node and calculating all best paths to other nodes  
 4. **Dijkstra’s** - This is the algorithm we will implement to solve our leading questions of the shortest path through all nodes and the shortest path between any single node and another (SSSP).  
+3. **All Pairs Shortest Path / Floyd-Warshall** - We want to know the shortest path between any two bosses A and B. So the shortest path between any pair. This can be interpreted as “splits” of a speedrun, and is a modified version of SSSP as we are changing the single-source node and calculating all best paths to other nodes. We will find this using the Floyd-Warshall algorithm. 
 5. **Graph Visualization** - We were looking to take advantage of some of the GUI functionality of Python, such as NumPy, MatPlotLib, and PySimpleGUI to visually represent our graph and highlight the result of our traversals.
 
 ## Dataset Acquisition and Processing
@@ -70,5 +70,5 @@ Build CSV file of graph representation
 Code the graph representation  
 Complete traversal through the graph (BFS)  
 Code Djikstra’s algorithm  
+Code Floyd-Warshall to answer all-pairs-shortest-path
 Visualize w/ Python  
-Answer the SSSP problem generalized to all node pairs A, B
