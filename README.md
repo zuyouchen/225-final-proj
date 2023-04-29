@@ -1,10 +1,7 @@
 # CS 225 Final Project: Elden Ring Speedrun Optimizer
 Final Project for CS 225 in Spring 2023, created by Malcolm Kaplan, Evan Chen, Tyler Cushing, Numair Hajyani, and Gyury Lee. 
 
-## GitHub File Organization
-
-
-## Project Structure
+## File Organization
 
 * ### ```\```
   Project configuration files (README.md, Makefile, contract.md, proposal.md, etc).
