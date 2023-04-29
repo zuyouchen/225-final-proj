@@ -52,6 +52,8 @@ and then
 ./bin/tests
 ```
 
+The test suite provides comprehensive checks for all major and minor methods within our program. Each individual test method corresponds to one single method in our main program (BFS, Dijkstra's, addEdge, etc).
+
 ## Input and Outputs for Each Method
 
 
