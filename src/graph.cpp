@@ -1,6 +1,8 @@
 #include "../src/graph.h"
 #include <limits>
 
+#define INF 99999
+
 Graph::Graph() {}
 
 Graph::Graph(string nodes_file, string prereqs_file)
@@ -182,17 +184,20 @@ vector<Graph::Node> Graph::SSSP(Node start, Node end)
     return to_return;
 }
 
-vector<vector<double>> Graph::edgeListToAdjMatrix(const vector<Graph::Node *> nodes) {
+vector<vector<double>> Graph::edgeListToAdjMatrix(const vector<Graph::Node *> nodes)
+{
     // initialize our adj matrix with 0s
-    int n = nodes.size(); 
-    vector<vector<double>> adjMatrix(n, vector<double>(n, 0)); 
+    int n = nodes.size();
+    vector<vector<double>> adjMatrix(n, vector<double>(n, INF));
     // iterate through each Node in the nodes vector
-    for (int i = 0; i < n; i++) {
-        Graph::Node* node = nodes[i];
+    for (int i = 0; i < n; i++)
+    {
+        Graph::Node *node = nodes[i];
         // iterate through the related map of the node
-        for (auto it = node -> related.begin(); it != node -> related.end(); ++it) {
-            Graph::Node* neighbor = it -> first;
-            double weight = it -> second;
+        for (auto it = node->related.begin(); it != node->related.end(); ++it)
+        {
+            Graph::Node *neighbor = it->first;
+            double weight = it->second;
             int j = distance(nodes.begin(), find(nodes.begin(), nodes.end(), neighbor));
             adjMatrix[i][j] = weight; // add the edge weight to the adjacency matrix
         }
