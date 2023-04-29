@@ -62,7 +62,7 @@ public:
      * Function that performs Floyd warshall algorithm to find the shortest distances between every node in the graph
      * @returns A vector of graph nodes
      */
-    vector<vector<double>> Graph::FloydWarshall();
+    vector<vector<double>> FloydWarshall();
 
     /**
      * @todo do we still even need this fxn?
@@ -111,6 +111,8 @@ public:
      * @returns vector of pointers to all nodes in the Graph
      */
     vector<Node *> getNodes() { return nodes; };
+
+    void VectorToCSV();
 
 private:
     // A vector of Node pointers representing our Graph.

@@ -242,4 +242,14 @@ vector<vector<double>> Graph::edgeListToAdjMatrix(const vector<Graph::Node *> no
     return adjMatrix;
 }
 
+void Graph::VectorToCSV() {
+    vector<Node*> v = Dijkstra(nodes.at(0));
+    std::ofstream csv;
+    csv.open("/workspaces/cs225env/225-final-proj/data/output.csv");
+    for (size_t i = 0; i < v.size(); ++i) {
+        csv << v.at(i)->name << '\n';
+    }
+    csv.close();
+}
+
 // ? Visualization function ?
