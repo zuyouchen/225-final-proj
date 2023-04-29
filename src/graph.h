@@ -43,18 +43,6 @@ public:
     * Frees allocated memory (node pointers)
     */
     ~Graph();
-    
-   /**
-    * Function that performs Dijkstra's algorithm to find the shortest path through all the nodes given a start node.
-    * @param start pointer to the starting Node
-    * @returns A vector of nodes containing the path
-    */
-    vector<Node *> Dijkstra(Node *start);
-
-   /**
-    * @todo
-    */
-    vector<Node> SSSP(Node start, Node end);
 
     /**
     * Function performs a breadth-first-search (BFS) traversal of our Graph given a start node.
@@ -63,9 +51,35 @@ public:
     */
     vector<Node *> BFS(Node *start);
 
+
+   /**
+    * Function that performs Dijkstra's algorithm to find the shortest path through all the nodes given a start node.
+    * @param start pointer to the starting Node
+    * @returns A vector of nodes containing the path
+    */
+    vector<Node *> Dijkstra(Node *start);
+
+
+   /**
+    * @todo do we still even need this fxn?
+    */
+    vector<Node> SSSP(Node start, Node end);
+
+
+    /**
+    * Converts a graph represented as an edge list to an adjacency matrix.
+    * NOTE: From our population of the graph structure, 
+    * since the input file is processed sequentially, 
+    * nodes and edges are added to the private nodes vector in the correct order to translate to [i][j] matrix. 
+    * 
+    * @param nodes our populated Graph of vector<Node *> that represents the graph as an edge list
+    * @return a two-dimensional array representing the adjacency matrix. the value at matrix[i][j] represents the weight of an edge between nodes i and j (and 0 if no edge exists)
+    */
+    vector<vector<double>> edgeListToAdjMatrix(const vector<Node *> nodes);
+
     // @todo visualization function
 
-    // --- HELPERS --- 
+    // ------ HELPERS ------
 
     /**
     * Helper function that adds a node to our Graph structure. Called in parameterized constructor.

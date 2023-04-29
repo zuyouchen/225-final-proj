@@ -106,19 +106,65 @@ void testDijkstra()
     }
 }
 
+void testEdgeListToAdjMatrix() {
+    /*
+    * With our simple graph (test_nodes.csv), we should get adj matrix that looks like:
+    * [[0, 20, 0],
+    *  [0, 0, 25],
+    *  [0, 0, 0]]
+    * 
+    * We have asserted this but you can also uncomment the printing loops to see.  
+    */
+    Graph g("data/test_nodes.csv", "data/test_prereqs.csv");
+    vector<Graph::Node *> nodes = g.getNodes();
+    vector<vector<double>> adjMatrix = g.edgeListToAdjMatrix(nodes);
+    assert(adjMatrix.size() == 3);
+    assert(adjMatrix[0].size() == 3);
+    // Diagonal should be 0
+    assert(adjMatrix[0][0] == 0);
+    assert(adjMatrix[1][1] == 0);
+    assert(adjMatrix[2][2] == 0);
+
+    // Existing edges
+    assert(adjMatrix[0][1] == adjMatrix[1][0] && adjMatrix[0][1]== 20);
+    assert(adjMatrix[1][2] == adjMatrix[2][1] && adjMatrix[1][2] == 25);
+
+    // Non-existing edges (should be 0)
+    assert(adjMatrix[0][2] == 0);
+    assert(adjMatrix[2][0] == 0);
+
+    // --- PRINTING OUT THE ADJ MATRIX
+    // for (unsigned i = 0; i < adjMatrix.size(); ++i) {
+    //     for (unsigned j = 0; j < adjMatrix[i].size(); ++j) {
+    //         cout << "[" << adjMatrix[i][j] << "]";
+    //     }
+    //     cout << endl;
+    // }
+}
+
 int main()
 {
     cout << "Test file running" << endl;
+
     cout << "Testing Graph Population..." << endl;
     testGraphPopulation();
+
     cout << "Testing Add Node..." << endl;
     testAddNode();
+    
     cout << "Testing Add Edge..." << endl;
     testAddEdge();
-    cout << "Testing BFS..." << endl;
-    cout << "All tests passed" << endl;
-    testDijkstra();
+
+    // cout << "Testing BFS..." << endl;
+    // testBFS();
+
     cout << "Testing Dijkstra..." << endl;
+    testDijkstra();
+
+    cout << "Testing Edge List ->  Adj Matrix..." << endl;
+    testEdgeListToAdjMatrix();
+
     cout << "All tests passed" << endl;
+
     return 0;
 }
