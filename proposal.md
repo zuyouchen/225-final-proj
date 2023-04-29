@@ -1,10 +1,10 @@
 ## Leading Question 
-How can we leverage a graph representation of Elden Ring’s bosses, graph traversal, Dijkstra’s algorithm, and the single-source-shortest-path (SSSP) problem to discover optimal speedrunning routes of the game? 
+How can we leverage a graph representation of Elden Ring’s bosses, graph traversal, Dijkstra’s algorithm, and the Floyd-Warhsall algorithm problem to discover optimal speedrunning routes of the game? 
 ## Major Deliverables
 1. **Graph Structure** - We will be representing the Elden Ring map as a weighted and directed graph where the nodes are each particular boss location and the edges are the travel times from boss to boss
 2. **Breadth-First-Search Traversal** - To answer the question of the shortest time to complete every boss in the game, we can utilize a BFS to traverse through the graph and visit every node.  
-4. **Dijkstra’s** - This is the algorithm we will implement to solve our leading questions of the shortest path through all nodes and the shortest path between any single node and another (SSSP).  
-3. **All Pairs Shortest Path / Floyd-Warshall** - We want to know the shortest path between any two bosses A and B. So the shortest path between any pair. This can be interpreted as “splits” of a speedrun, and is a modified version of SSSP as we are changing the single-source node and calculating all best paths to other nodes. We will find this using the Floyd-Warshall algorithm. 
+4. **Dijkstra’s** - This is the algorithm we will implement to solve our leading question of the shortest path through all nodes (a 100% speedrun) and the shortest path between any single node and another (SSSP).  
+3. **Floyd-Warshall** - We want to know the shortest path between any two bosses A and B. So the shortest path between any pair. This can be interpreted as “splits” of a speedrun. This is essentially an all-pairs-shortest-path problem. We will find this using the Floyd-Warshall algorithm. 
 5. **Graph Visualization** - We were looking to take advantage of some of the GUI functionality of Python, such as NumPy, MatPlotLib, and PySimpleGUI to visually represent our graph and highlight the result of our traversals.
 
 ## Dataset Acquisition and Processing
@@ -28,16 +28,20 @@ Paper on Dijkstra’s and SSSP: [https://www.researchgate.net/publication/273264
 Erikson’s Textbook:
 [https://jeffe.cs.illinois.edu/teaching/algorithms/#book](https://www.researchgate.net/publication/273264449_Understanding_Dijkstra_Algorithm)
 
+Section 8.9 of Paper on Floyd-Warshall ("Floyd-Warshall algorithm for all pairs shortest paths"): [http://www.ieor.berkeley.edu/~hochbaum/files/ieor266-2014.pdf] (http://www.ieor.berkeley.edu/~hochbaum/files/ieor266-2014.pdf)
+
 **Function Inputs**
 
 - For Dijkstra’s: takes in a starting node of our graph representation, which will always be node “firstStep,” and the graph’s adjacency list, represented as a vector of nodes
-- For SSSP: takes in a starting node and ending node
-- For BFS: takes in a starting node, which will always be node “firstStep”
+- For Floyd-Warshall: adjacency matrix of our graph. The adjacency matrix is a two-dimensional array where the value at position (i, j) represents the weight of the edge from node i to node j. If there is no edge between nodes i and j, the value at position (i, j) is infinity.
+- For BFS: takes in a starting node, which will always be node “firstStep"
 - For Visualization: takes in a vector of nodes and visualizes the best path through all of them
 
 **Function Outputs**
 
-Dijkstra’s and SSSP return a vector of nodes visited to show the path. 
+Dijkstra’s returns a vector of nodes visited to show the path. 
+
+Floyd-Warshall returns a matrix where the value at position (i, j) represents the shortest path between nodes i and j. If there is no path between nodes i and j, the value at position (i, j) is infinity.
 
 The BFS function returns a vector of nodes visited in order of a BFS traversal. 
 
@@ -45,18 +49,22 @@ The visualization function outputs a line drawn on the actual map of Elden Ring 
 
 **Function Efficiency**
 
-Dijkstra’s Algorithm - Using Dijkstra’s algorithm on our dataset will incur a time complexity of O(V^2) where V is the number of vertices in the graph. 
+Dijkstra’s Algorithm - Using Dijkstra’s algorithm on our dataset will incur a time complexity of O(V^2) where V is the number of vertices in the graph.
 
-SSSP - Considering this problem will be solved using Dijkstra's algorithm, it will also take O(V^2) time where V is the number of vertices in the graph.
+Floyd-Warshall Algorithm - This algorithm is O(V^3), where V is the number of vertices in the graph. This makes it less efficient than Dijkstra's algorithm but it can be used to find the shortest path between all pairs, whereas Dijkstra's algorithm can only be used to find the shortest path between a single pair.
 
 BFS - implemented properly, BFS should incur a time complexity of O(n) where n is the number of nodes in our graph.
 
-Visualization - Our function will traverse our shortest path using whichever algorithm we want to visualize, so it will either be O(V^2) if we are visualizing Dijkstra's/SSSP or O(n) if we are visualizing BFS.
+Visualization - Our function will traverse our shortest path using whichever algorithm we want to visualize, so it will either be O(V^2) if we are visualizing Dijkstra's, O(V^3) if Floyd-Warshall, or O(n) if we are visualizing BFS.
 
 
 **Testing Strategy** 
 
-To test Dijkstra’s and SSSP, we can write test cases to assert the amount of total time it takes to traverse the graph via our expected best path. Furthermore, using game knowledge, we can evaluate if the algorithm traversed makes sense given our constraints. We can write test cases where we assert or require that the amount of time should equal.
+To test our graph representation, we can create a simple graph and use the same functions, testing if nodes and edges are as expected.
+
+To test Dijkstra’s, we can write test cases to assert the amount of total time it takes to traverse the graph via our expected best path. Furthermore, using game knowledge, we can evaluate if the algorithm traversed makes sense given our constraints. We can write test cases where we assert or require that the amount of time should equal.
+
+To test Floyd-Warshall, we can create a simple graph and run our Floyd-Warshall algorithm to check for correct paths. We can also use some smaller examples from our larger graph (ex: nodes that are one or two edges apart) and compare with manual best-paths. 
 
 To test BFS, our algorithm must print out every single node in the correct order.
 
@@ -66,9 +74,10 @@ To test our visualization, we can analyze if the line drawn actually follows the
 ## Timeline
 Dataset acquisition (already mostly done)
 
-Build CSV file of graph representation  
+Build CSV file of graph representation (done)
 Code the graph representation  
-Complete traversal through the graph (BFS)  
+Complete traversal through the graph (BFS) (done)
 Code Djikstra’s algorithm  
 Code Floyd-Warshall to answer all-pairs-shortest-path
+Account for pre-requisites, fast-travel, etc. 
 Visualize w/ Python  
