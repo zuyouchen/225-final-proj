@@ -4,6 +4,16 @@ Final Project for CS 225 in Spring 2023, created by Malcolm Kaplan, Evan Chen, T
 ## GitHub File Organization
 
 
+## Project Structure
+
+* ### ```\```
+  Project configuration files (README.md, Makefile, contract.md, proposal.md, etc).
+* ### ```\data```
+  Contains all the input files. Includes a small test csv of nodes and one of prereqs, as well as our actual Elden Ring node csv and prerequisite csv.
+* ### ```\entry```
+  Includes our two entry points for the program: the main exec file and the test file.
+* ### ```\src```
+  Includes our graph.cpp and graph.h files, which define the node structure, the graph structure, and all of our algorithms run on the graph (BFS, Dijkstra's, Floyd-Warshall, and helper methods to read data in, add nodes and edges, etc. Basically everything except the visualization code is present here).
 
 ## Installation
 
