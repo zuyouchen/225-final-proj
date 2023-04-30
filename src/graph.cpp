@@ -7,8 +7,6 @@ Graph::Graph() {}
 
 Graph::Graph(string nodes_file, string prereqs_file)
 {
-    // TODO: account for prereqs, decide on this
-    ifstream prereqs(prereqs_file);
 
     ifstream infile(nodes_file);
     if (!infile.is_open())
@@ -54,6 +52,41 @@ Graph::Graph(string nodes_file, string prereqs_file)
                 string related_name = secondpass[i];
                 double time = stod(secondpass[i + 1]);
                 addEdge(name, related_name, time);
+            }
+        }
+    }
+
+    ifstream prereqs(prereqs_file);
+    string line2;
+    while (getline(prereqs, line2))
+    {
+        stringstream ss2(line2);
+        // string name;
+        // double time;
+        // // extract the name and time for the node
+        // getline(ss, name, ',');
+        // ss >> time;
+        // addNode(name, time);
+        string node;
+        string prereq;
+        getline(ss2, node, ',');
+        ss2 >> prereq;
+        prereq.pop_back();
+        if (prereq == "two_shard_bearers") {
+            for (size_t i = 0; i < nodes.size(); ++i) {
+                if (nodes.at(i)->name == node) {
+                    nodes.at(i)->shard_bearer_prereq = 2;
+                }
+            }
+        } else {
+            for (size_t i = 0; i < nodes.size(); ++i) {
+                if (nodes.at(i)->name == node) {
+                    for (size_t j = 0; j < nodes.size(); ++j) {
+                        if (nodes.at(j)->name == prereq) {
+                            nodes.at(i)->prereq = nodes.at(j);
+                        }
+                    }
+                }
             }
         }
     }
@@ -109,6 +142,13 @@ void Graph::print()
         }
         cout << endl;
     }
+    for (size_t i = 0; i < nodes.size(); ++i) {
+        if (nodes.at(i)->prereq) {
+            cout << nodes.at(i)->name << ", Prereq node: " << nodes.at(i)->prereq->name << endl;
+        } else if (nodes.at(i)->shard_bearer_prereq != 0) {
+            cout << nodes.at(i)->name << ", Required Shard Bearers: " << nodes.at(i)->shard_bearer_prereq << endl;
+        }
+    }
 }
 
 vector<Graph::Node *> Graph::BFS(Node *start)
@@ -132,47 +172,98 @@ vector<Graph::Node *> Graph::BFS(Node *start)
     return to_return;
 }
 
+// Graph::Node* Graph::minRelative(Node* node) {
+//     int min_dist = INF;
+//     Node* tmp = NULL;
+//     for (auto& it : node->related) {
+//         if (it.second < min_dist) {
+//             tmp = it.first;
+//         }
+//     }
+//     return tmp;
+// }
+
+
+// CURRENT THOUGHTS ON HANDLING PATHFINDING:
+// Prereqs: before popping a node, make sure its prereqs are accounted for. If not, keep in queue
+// Fast travel: when arriving at a node without an exit, return to the node with the gratest number of
+// unexplored edges
+// but why does dijkstra's not work atm :skull emoji:
 vector<Graph::Node *> Graph::Dijkstra(Node *start)
 {
-    vector<Node *> shortest_path;
-    map<Node *, double> dist; // Keeps track of each nodes distances
-    for (auto node : start->related)
-    {
-        dist[node.first] = node.second; // Sets all the nodes as keys
+    size_t size = nodes.size();
+    map<Node*, double> dist;
+    map<Node*, Node*> prev;
+    unordered_map<Node*, bool> seen;
+    for (size_t i = 0; i < size; ++i) {
+        dist.insert({nodes.at(i), INF});
+        prev.insert({nodes.at(i), NULL});
+        seen.insert({nodes.at(i), false});
     }
-    dist[start] = 0; // we set the start distance 0
-    // Create a priority queue from accending order to get the smallest path
+
+    dist[start] = 0; // distance of start is 0
+    vector<Node*> path;
+
     priority_queue<pair<double, Node *>, vector<pair<double, Node *>>, greater<pair<double, Node *>>> Q;
-    Q.push(make_pair(0, start)); // push the start
-    std::set<Node *> visited;    // keep track of the node we visited
-    // start Dijkstra
-    while (!Q.empty())
-    {
-        auto u = Q.top().second; // pop from the queue
+    Q.push(make_pair(0, start));
+
+    while(!Q.empty()) {
+        Node* u = Q.top().second;
         Q.pop();
-
-        if (visited.count(u) > 0)
-        {
-            continue;
+        seen[u] = true;
+        if (u->name == "godrick" || u->name == "rennala" || u->name == "radahn" || u->name == "rykard") {
+            shard_bearers_slain++;
         }
-
-        visited.insert(u);
-
-        for (auto v : u->related)
-        {
-            double alt = dist[u] + v.second;
-            if (alt < dist[v.first])
-            {
-                dist[v.first] = alt;
+        for(auto v : u->related) {
+            if (seen[v.first] == false && (dist[u] + (v.second)) < dist[v.first]) {
+                dist[v.first] = (dist[u]+(v.second));
+                prev[v.first] = u;
+                path.push_back(u);
                 Q.push(make_pair(dist[v.first], v.first));
             }
         }
     }
-    for (auto node : dist) // creates the shortest path
-    {
-        shortest_path.push_back(node.first);
-    }
-    return shortest_path;
+    return path;
+
+    // vector<Node *> shortest_path;
+    // map<Node *, double> dist; // Keeps track of each nodes distances
+    // for (auto node : start->related)
+    // {
+    //     dist[node.first] = node.second; // Sets all the nodes as keys
+    // }
+    // dist[start] = 0; // we set the start distance 0
+    // // Create a priority queue from accending order to get the smallest path
+    // priority_queue<pair<double, Node *>, vector<pair<double, Node *>>, greater<pair<double, Node *>>> Q;
+    // Q.push(make_pair(0, start)); // push the start
+    // std::set<Node *> visited;    // keep track of the node we visited
+    // // start Dijkstra
+    // while (!Q.empty())
+    // {
+    //     auto u = Q.top().second; // pop from the queue
+    //     Q.pop();
+
+    //     if (visited.count(u) > 0)
+    //     {
+    //         continue;
+    //     }
+
+    //     visited.insert(u);
+
+    //     for (auto v : u->related)
+    //     {
+    //         double alt = dist[u] + v.second;
+    //         if (alt < dist[v.first])
+    //         {
+    //             dist[v.first] = alt;
+    //             Q.push(make_pair(dist[v.first], v.first));
+    //         }
+    //     }
+    // }
+    // for (auto node : dist) // creates the shortest path
+    // {
+    //     shortest_path.push_back(node.first);
+    // }
+    // return shortest_path;
 }
 
 vector<vector<double>> Graph::FloydWarshall()

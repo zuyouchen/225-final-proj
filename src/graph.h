@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <fstream>
 #include <sstream>
 #include <queue>
@@ -16,14 +17,16 @@ public:
      * Node structure for use in our Graph class
      * @param name string of the Boss name
      * @param time time it takes to complete boss (node weight)
-     * @param related map<Node *, double> that stores each node's edges and the edge weights - acts as our "edge list"
+     * @param related map<Node *, double> that stores each node's edges and the edge weights - acts as our "adjacency list"
      */
     struct Node
     {
         string name;
         double time = 0;
-        // NOTE: Need to store a map from node pointer to double because map keys cannot be structs without overloaded operators
         map<Node *, double> related;
+
+        Node* prereq = NULL;
+        int shard_bearer_prereq = 0; // ONLY for godfrey golden shade
     };
 
     /**
@@ -114,7 +117,10 @@ public:
 
     void VectorToCSV();
 
+    //Node* minRelative(Node* node);
+
 private:
     // A vector of Node pointers representing our Graph.
     vector<Node *> nodes;
+    int shard_bearers_slain = 0;
 };

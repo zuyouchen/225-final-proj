@@ -21,6 +21,25 @@ void testGraphPopulation()
     assert(nodes[2]->related.count(nodes[1]) == 1);
 }
 
+void testPrereqReading() {
+    Graph g("data/test_nodes.csv", "data/test_prereqs.csv");
+    vector<Graph::Node *> nodes = g.getNodes();
+
+    int num_prereqs = 0;
+    for (size_t i = 0; i < nodes.size(); ++i) {
+        if (nodes.at(i)->prereq) {
+            num_prereqs++;
+        }
+    }
+    int rows = 0;
+    ifstream file("data/test_prereqs.csv");
+    string line;
+    while (getline(file, line)) {
+        rows++;
+    }
+    assert(num_prereqs == rows);
+}
+
 void testAddNode()
 {
     Graph g("data/test_nodes.csv", "data/test_prereqs.csv");
@@ -149,6 +168,9 @@ int main()
     cout << "Testing Graph Population..." << endl;
     testGraphPopulation();
 
+    cout << "Testing Prereq Population..." << endl;
+    testPrereqReading();
+
     cout << "Testing Add Node..." << endl;
     testAddNode();
     
@@ -160,6 +182,8 @@ int main()
 
     cout << "Testing Dijkstra..." << endl;
     testDijkstra();
+
+    // TEST FLOYD-WARSHALL
 
     cout << "Testing Edge List ->  Adj Matrix..." << endl;
     testEdgeListToAdjMatrix();
