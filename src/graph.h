@@ -25,8 +25,8 @@ public:
         double time = 0;
         map<Node *, double> related;
 
-        Node* prereq = NULL;
-        int shard_bearer_prereq = 0; // ONLY for godfrey golden shade
+        Node* prereq = NULL; // null for all but a few nodes, as specifed in prereqs.csv
+        int shard_bearer_prereq = 0; // ONLY for godfrey (golden shade)
     };
 
     /**
@@ -68,11 +68,6 @@ public:
     vector<vector<double>> FloydWarshall();
 
     /**
-     * @todo do we still even need this fxn?
-     */
-    vector<Node> SSSP(Node start, Node end);
-
-    /**
      * Converts a graph represented as an edge list to an adjacency matrix.
      * NOTE: From our population of the graph structure,
      * since the input file is processed sequentially,
@@ -82,8 +77,6 @@ public:
      * @return a two-dimensional array representing the adjacency matrix. the value at matrix[i][j] represents the weight of an edge between nodes i and j (and INF if no edge exists)
      */
     vector<vector<double>> edgeListToAdjMatrix(const vector<Node *> nodes);
-
-    // @todo visualization function
 
     // ------ HELPERS ------
 
@@ -115,12 +108,18 @@ public:
      */
     vector<Node *> getNodes() { return nodes; };
 
-    void VectorToCSV();
+    /**
+     * Helper function to print a vector to a CSV.
+     * Used to test and feed into visualization.
+     */
+    void VectorToCSV(vector<Node*> input, string output);
 
     //Node* minRelative(Node* node);
 
 private:
     // A vector of Node pointers representing our Graph.
     vector<Node *> nodes;
+
+    // Number of shardbearers slain; requires it to be 2 to fight godfrey (golden shade)
     int shard_bearers_slain = 0;
 };

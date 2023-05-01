@@ -164,22 +164,38 @@ void Graph::print()
     }
 }
 
-vector<Graph::Node *> Graph::BFS(Node *start)
-{
+vector<Graph::Node *> Graph::BFS(Node *start) {
     vector<Node *> to_return;
     queue<Node *> q;
+    unordered_map<Node*, bool> visited;
+    for (size_t i = 0; i < nodes.size(); ++i) {
+        visited.insert({nodes.at(i), false});
+    }
+    visited.insert({NULL, true}); // if a node has NULL as a prereq, it can validly move to it
     q.push(start);
-    while (!q.empty())
-    {
+    while (!q.empty()) {
         Node *top = q.front();
-        q.pop();
-        if (find(to_return.begin(), to_return.end(), top) == to_return.end())
-        {
-            to_return.push_back(top);
+        while (visited[top->prereq] == false || shard_bearers_slain < top->shard_bearer_prereq) {
+            // if we haven't gotten prereqs, re-add the node to the back of the queue for later processing
+            q.push(top);
+            // remove the node
+            q.pop();
+            // process the node after it
+            top = q.front();
+            // repeat until we found a node we can traverse to
         }
-        for (auto &it : top->related)
-        {
-            q.push(it.first);
+        q.pop();
+        if (visited[top] == false) {
+            to_return.push_back(top);
+            visited[top] = true;
+            if (top->name == "godrick" || top->name == "rennala" || top->name == "radahn" || top->name == "rykard") {
+                shard_bearers_slain++;
+            }  
+        }
+        for (auto &it : top->related) {
+            if (visited[it.first] == false) {
+                q.push(it.first);
+            }
         }
     }
     return to_return;
@@ -362,15 +378,6 @@ vector<vector<double>> Graph::FloydWarshall()
     return dist;
 }
 
-vector<Graph::Node> Graph::SSSP(Node start, Node end)
-{
-    // dummy code just to it can compile
-    vector<Node> to_return;
-    to_return.push_back(start);
-    to_return.push_back(end);
-    return to_return;
-}
-
 vector<vector<double>> Graph::edgeListToAdjMatrix(const vector<Graph::Node *> nodes)
 {
     // initialize our adj matrix with 0s
@@ -392,16 +399,13 @@ vector<vector<double>> Graph::edgeListToAdjMatrix(const vector<Graph::Node *> no
     return adjMatrix;
 }
 
-void Graph::VectorToCSV()
+void Graph::VectorToCSV(vector<Node*> input, string output)
 {
-    vector<Node *> v = Dijkstra(nodes.at(0));
     std::ofstream csv;
-    csv.open("/workspaces/cs225env/225-final-proj/data/output.csv");
-    for (size_t i = 0; i < v.size(); ++i)
+    csv.open(output);
+    for (size_t i = 0; i < input.size(); ++i)
     {
-        csv << v.at(i)->name << '\n';
+        csv << input.at(i)->name << "," << '\n';
     }
     csv.close();
 }
-
-// ? Visualization function ?

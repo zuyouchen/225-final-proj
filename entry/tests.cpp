@@ -91,18 +91,21 @@ void testBFS()
 
     // test on our actual graph
     Graph g2("data/nodes.csv", "data/prereqs.csv");
-    vector<Graph::Node *> nodes2 = g.getNodes();
+    vector<Graph::Node *> nodes2 = g2.getNodes();
 
     // only ever start BFS at firstStep node
-    vector<Graph::Node *> bfs_result2 = g2.BFS(nodes.at(0));
+    vector<Graph::Node *> bfs_result2 = g2.BFS(nodes2.at(0));
+
+    // Output
+    g.VectorToCSV(bfs_result2, "/workspaces/cs225env/225-final-proj/data/bfs-output.csv");
 
     // Test BFS visits every node
     assert(bfs_result2.size() == nodes2.size());
+
 }
 
 void testDijkstra()
 {
-    // Graph g("data/test_nodes.csv", "data/test_prereqs.csv");
 
     Graph g;
     vector<Graph::Node *> answer;
@@ -128,6 +131,10 @@ void testDijkstra()
     {
         assert(result[i]->name == answer[i]->name && result[i]->time == answer[i]->time && result[i]->related == answer[i]->related);
     }
+    Graph g2("data/nodes.csv", "data/prereqs.csv");
+    vector<Graph::Node *> nodes2 = g2.getNodes();
+    vector<Graph::Node*> dijkstra_result = g2.Dijkstra(nodes2.at(0));
+    g.VectorToCSV(dijkstra_result, "/workspaces/cs225env/225-final-proj/data/dijkstras-output.csv");
 }
 
 void testDijkstraRealGraph()
@@ -194,8 +201,8 @@ int main()
     cout << "Testing Add Edge..." << endl;
     testAddEdge();
 
-    // cout << "Testing BFS..." << endl;
-    // testBFS();
+    cout << "Testing BFS..." << endl;
+    testBFS();
 
     cout << "Testing Dijkstra..." << endl;
     testDijkstra();
