@@ -3,6 +3,7 @@
 #include <cassert>
 #include <limits>
 using namespace std;
+#define INF 99999
 
 void testGraphPopulation()
 {
@@ -125,6 +126,12 @@ void testDijkstra()
     }
 }
 
+void testDijkstraRealGraph() {
+    /*
+    * @todo
+    */
+}
+
 void testEdgeListToAdjMatrix() {
     /*
     * With our simple graph (test_nodes.csv), we should get adj matrix that looks like:
@@ -139,18 +146,18 @@ void testEdgeListToAdjMatrix() {
     vector<vector<double>> adjMatrix = g.edgeListToAdjMatrix(nodes);
     assert(adjMatrix.size() == 3);
     assert(adjMatrix[0].size() == 3);
-    // Diagonal should be 0
-    assert(adjMatrix[0][0] == 0);
-    assert(adjMatrix[1][1] == 0);
-    assert(adjMatrix[2][2] == 0);
+    // Diagonal should be INF
+    assert(adjMatrix[0][0] == INF);
+    assert(adjMatrix[1][1] == INF);
+    assert(adjMatrix[2][2] == INF);
 
     // Existing edges
     assert(adjMatrix[0][1] == adjMatrix[1][0] && adjMatrix[0][1]== 20);
     assert(adjMatrix[1][2] == adjMatrix[2][1] && adjMatrix[1][2] == 25);
 
-    // Non-existing edges (should be 0)
-    assert(adjMatrix[0][2] == 0);
-    assert(adjMatrix[2][0] == 0);
+    // Non-existing edges (should be INF)
+    assert(adjMatrix[0][2] == INF);
+    assert(adjMatrix[2][0] == INF);
 
     // --- PRINTING OUT THE ADJ MATRIX
     // for (unsigned i = 0; i < adjMatrix.size(); ++i) {

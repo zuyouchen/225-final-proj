@@ -79,7 +79,7 @@ public:
      * nodes and edges are added to the private nodes vector in the correct order to translate to [i][j] matrix.
      *
      * @param nodes our populated Graph of vector<Node *> that represents the graph as an edge list
-     * @return a two-dimensional array representing the adjacency matrix. the value at matrix[i][j] represents the weight of an edge between nodes i and j (and 0 if no edge exists)
+     * @return a two-dimensional array representing the adjacency matrix. the value at matrix[i][j] represents the weight of an edge between nodes i and j (and INF if no edge exists)
      */
     vector<vector<double>> edgeListToAdjMatrix(const vector<Node *> nodes);
 
