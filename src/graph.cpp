@@ -72,17 +72,26 @@ Graph::Graph(string nodes_file, string prereqs_file)
         getline(ss2, node, ',');
         ss2 >> prereq;
         prereq.pop_back();
-        if (prereq == "two_shard_bearers") {
-            for (size_t i = 0; i < nodes.size(); ++i) {
-                if (nodes.at(i)->name == node) {
+        if (prereq == "two_shard_bearers")
+        {
+            for (size_t i = 0; i < nodes.size(); ++i)
+            {
+                if (nodes.at(i)->name == node)
+                {
                     nodes.at(i)->shard_bearer_prereq = 2;
                 }
             }
-        } else {
-            for (size_t i = 0; i < nodes.size(); ++i) {
-                if (nodes.at(i)->name == node) {
-                    for (size_t j = 0; j < nodes.size(); ++j) {
-                        if (nodes.at(j)->name == prereq) {
+        }
+        else
+        {
+            for (size_t i = 0; i < nodes.size(); ++i)
+            {
+                if (nodes.at(i)->name == node)
+                {
+                    for (size_t j = 0; j < nodes.size(); ++j)
+                    {
+                        if (nodes.at(j)->name == prereq)
+                        {
                             nodes.at(i)->prereq = nodes.at(j);
                         }
                     }
@@ -142,10 +151,14 @@ void Graph::print()
         }
         cout << endl;
     }
-    for (size_t i = 0; i < nodes.size(); ++i) {
-        if (nodes.at(i)->prereq) {
+    for (size_t i = 0; i < nodes.size(); ++i)
+    {
+        if (nodes.at(i)->prereq)
+        {
             cout << nodes.at(i)->name << ", Prereq node: " << nodes.at(i)->prereq->name << endl;
-        } else if (nodes.at(i)->shard_bearer_prereq != 0) {
+        }
+        else if (nodes.at(i)->shard_bearer_prereq != 0)
+        {
             cout << nodes.at(i)->name << ", Required Shard Bearers: " << nodes.at(i)->shard_bearer_prereq << endl;
         }
     }
@@ -183,42 +196,46 @@ vector<Graph::Node *> Graph::BFS(Node *start)
 //     return tmp;
 // }
 
-
 // CURRENT THOUGHTS ON HANDLING PATHFINDING:
 // Prereqs: before popping a node, make sure its prereqs are accounted for. If not, keep in queue
 // Fast travel: when arriving at a node without an exit, return to the node with the gratest number of
 // unexplored edges
 // Possibly fixed? -Evan 4/30
-vector<Graph::Node*> Graph::Dijkstra(Node* start)
+vector<Graph::Node *> Graph::Dijkstra(Node *start)
 {
-    map<Node*, double> dist; // dist from start -> node 
-    map<Node*, Node*> prev; // prev node on shortest path 
-    unordered_map<Node*, bool> seen; // whether we have visited
+    map<Node *, double> dist;         // dist from start -> node
+    map<Node *, Node *> prev;         // prev node on shortest path
+    unordered_map<Node *, bool> seen; // whether we have visited
 
-    for (auto node : nodes) {
+    for (auto node : nodes)
+    {
         dist[node] = INF;
         prev[node] = nullptr;
         seen[node] = false;
     }
 
     dist[start] = 0;
-    vector<Node*> path;
+    vector<Node *> path;
 
-    priority_queue<pair<double, Node*>, vector<pair<double, Node*>>, greater<pair<double, Node*>>> Q;
+    priority_queue<pair<double, Node *>, vector<pair<double, Node *>>, greater<pair<double, Node *>>> Q;
     Q.push(make_pair(0, start));
 
-    while (!Q.empty()) {
-        Node* u = Q.top().second;
+    while (!Q.empty())
+    {
+        Node *u = Q.top().second;
         Q.pop();
         seen[u] = true;
 
-        if (u->name == "godrick" || u->name == "rennala" || u->name == "radahn" || u->name == "rykard") {
+        if (u->name == "godrick" || u->name == "rennala" || u->name == "radahn" || u->name == "rykard")
+        {
             shard_bearers_slain++;
         }
 
         // if we have not visited and a shorter path is found
-        for (auto v : u->related) {
-            if (!seen[v.first] && (dist[u] + v.second) < dist[v.first]) {
+        for (auto v : u->related)
+        {
+            if (!seen[v.first] && (dist[u] + v.second) < dist[v.first])
+            {
                 // update distances and push to the Q
                 dist[v.first] = dist[u] + v.second;
                 prev[v.first] = u;
@@ -231,7 +248,7 @@ vector<Graph::Node*> Graph::Dijkstra(Node* start)
     }
     return path;
 
-    // --- PREVIOUS IMPLEMENTATION (Before Evan changes 4/30/23) /// 
+    // --- PREVIOUS IMPLEMENTATION (Before Evan changes 4/30/23) ///
     // size_t size = nodes.size();
     // map<Node*, double> dist;
     // map<Node*, Node*> prev;
@@ -265,7 +282,6 @@ vector<Graph::Node*> Graph::Dijkstra(Node* start)
     //     }
     // }
     // return path;
-
 
     // -------------------------- ?? -------------------------- //
     // vector<Node *> shortest_path;
@@ -376,11 +392,13 @@ vector<vector<double>> Graph::edgeListToAdjMatrix(const vector<Graph::Node *> no
     return adjMatrix;
 }
 
-void Graph::VectorToCSV() {
-    vector<Node*> v = Dijkstra(nodes.at(0));
+void Graph::VectorToCSV()
+{
+    vector<Node *> v = Dijkstra(nodes.at(0));
     std::ofstream csv;
     csv.open("/workspaces/cs225env/225-final-proj/data/output.csv");
-    for (size_t i = 0; i < v.size(); ++i) {
+    for (size_t i = 0; i < v.size(); ++i)
+    {
         csv << v.at(i)->name << '\n';
     }
     csv.close();

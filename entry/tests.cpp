@@ -22,20 +22,24 @@ void testGraphPopulation()
     assert(nodes[2]->related.count(nodes[1]) == 1);
 }
 
-void testPrereqReading() {
+void testPrereqReading()
+{
     Graph g("data/test_nodes.csv", "data/test_prereqs.csv");
     vector<Graph::Node *> nodes = g.getNodes();
 
     int num_prereqs = 0;
-    for (size_t i = 0; i < nodes.size(); ++i) {
-        if (nodes.at(i)->prereq) {
+    for (size_t i = 0; i < nodes.size(); ++i)
+    {
+        if (nodes.at(i)->prereq)
+        {
             num_prereqs++;
         }
     }
     int rows = 0;
     ifstream file("data/test_prereqs.csv");
     string line;
-    while (getline(file, line)) {
+    while (getline(file, line))
+    {
         rows++;
     }
     assert(num_prereqs == rows);
@@ -126,21 +130,27 @@ void testDijkstra()
     }
 }
 
-void testDijkstraRealGraph() {
+void testDijkstraRealGraph()
+{
     /*
-    * @todo
-    */
+     * @todo
+     */
 }
 
-void testEdgeListToAdjMatrix() {
+void testFloydWarshallEasy()
+{
+}
+
+void testEdgeListToAdjMatrix()
+{
     /*
-    * With our simple graph (test_nodes.csv), we should get adj matrix that looks like:
-    * [[0, 20, 0],
-    *  [0, 0, 25],
-    *  [0, 0, 0]]
-    * 
-    * We have asserted this but you can also uncomment the printing loops to see.  
-    */
+     * With our simple graph (test_nodes.csv), we should get adj matrix that looks like:
+     * [[0, 20, 0],
+     *  [0, 0, 25],
+     *  [0, 0, 0]]
+     *
+     * We have asserted this but you can also uncomment the printing loops to see.
+     */
     Graph g("data/test_nodes.csv", "data/test_prereqs.csv");
     vector<Graph::Node *> nodes = g.getNodes();
     vector<vector<double>> adjMatrix = g.edgeListToAdjMatrix(nodes);
@@ -152,7 +162,7 @@ void testEdgeListToAdjMatrix() {
     assert(adjMatrix[2][2] == INF);
 
     // Existing edges
-    assert(adjMatrix[0][1] == adjMatrix[1][0] && adjMatrix[0][1]== 20);
+    assert(adjMatrix[0][1] == adjMatrix[1][0] && adjMatrix[0][1] == 20);
     assert(adjMatrix[1][2] == adjMatrix[2][1] && adjMatrix[1][2] == 25);
 
     // Non-existing edges (should be INF)
@@ -180,7 +190,7 @@ int main()
 
     cout << "Testing Add Node..." << endl;
     testAddNode();
-    
+
     cout << "Testing Add Edge..." << endl;
     testAddEdge();
 
