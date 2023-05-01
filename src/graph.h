@@ -8,16 +8,23 @@
 #include <queue>
 #include <set>
 #include <algorithm>
+#include <limits>
 using namespace std;
 
-class Graph
-{
+// For giving our visualization a title
+enum time_returned { bfs, allremtime, anypercenttime };
+// For deciding whether Dijkstra's computes an anypercent or an all remembrances run
+enum route { allremembrances, anypercent};
+
+class Graph {
 public:
     /**
      * Node structure for use in our Graph class
      * @param name string of the Boss name
      * @param time time it takes to complete boss (node weight)
      * @param related map<Node *, double> that stores each node's edges and the edge weights - acts as our "adjacency list"
+     * @param prereq, a node that must be visited before visiting that node; default NULL means no prereqs
+     * @param shard_berarer_prereq, how many demigods must be visited before visiting; default 0 means none
      */
     struct Node
     {
@@ -32,7 +39,7 @@ public:
     /**
      * Default constructor for our Graph class
      */
-    Graph(); // default constructor
+    Graph();
 
     /**
      * Parameterized constructor for our Graph class
@@ -58,12 +65,13 @@ public:
      * Function that performs Dijkstra's algorithm to find the shortest path through all the nodes given a start node.
      * @param start pointer to the starting Node
      * @returns A vector of nodes containing the path
+     * @
      */
-    vector<Node *> Dijkstra(Node *start);
+    vector<Node *> Dijkstra(Node *start, route r);
 
     /**
-     * Function that performs Floyd warshall algorithm to find the shortest distances between every node in the graph
-     * @returns A vector of graph nodes
+     * Function that performs Floyd warshall algorithm to find the shortest distances between every two nodes in the graph
+     * @returns A 2D vector of doubles containing the distances between all pairs of nodes
      */
     vector<vector<double>> FloydWarshall();
 
@@ -73,7 +81,7 @@ public:
      * since the input file is processed sequentially,
      * nodes and edges are added to the private nodes vector in the correct order to translate to [i][j] matrix.
      *
-     * @param nodes our populated Graph of vector<Node *> that represents the graph as an edge list
+     * @param our populated Graph of vector<Node *> that represents the graph as an edge list
      * @return a two-dimensional array representing the adjacency matrix. the value at matrix[i][j] represents the weight of an edge between nodes i and j (and INF if no edge exists)
      */
     vector<vector<double>> edgeListToAdjMatrix(const vector<Node *> nodes);
@@ -112,14 +120,44 @@ public:
      * Helper function to print a vector to a CSV.
      * Used to test and feed into visualization.
      */
-    void VectorToCSV(vector<Node*> input, string output);
+    void VectorToCSV(vector<Node*> input, string output, time_returned type);
 
-    //Node* minRelative(Node* node);
+    /**
+     * Helper function to determine if we should traverse a route in the any% run
+     * @param a node to check
+     * @returns a boolean, "true" for if we should traverse, "false" for if we should skip
+     */
+    bool shouldSkipInAnypercent(Node* node);
+
+    /**
+     * Helper function to compute a total time given a path of nodes
+     * @param a path, composed of node pointers
+     * @returns a double, computing the total time in seconds that the run takes
+     */
+    double computeTimeViaPath(vector<Node*> path);
+
+    /**
+     * Helper functions to return the private time variables
+     */
+    double getBFSTotal() { return BFS_total_time; }
+    double getAllRemsTotal() { return all_rem_total_time; }
+    double getAnypercentTotal() { return anypercent_total_time; }
 
 private:
-    // A vector of Node pointers representing our Graph.
+    /**
+     * Graph is represented as a vector of node structs
+     */
     vector<Node *> nodes;
 
-    // Number of shardbearers slain; requires it to be 2 to fight godfrey (golden shade)
+    /**
+     * Number of shardbearers (demigods) slain; 2 are required to fight Godfrey (Golden Shade)
+     */
     int shard_bearers_slain = 0;
+
+    /**
+     * Variables to keep track of our total time for each route
+     */
+    double BFS_total_time = 0; // computed by BFS
+    double all_rem_total_time = 0; // computed by Dijkstra's
+    double anypercent_total_time = 0; // computed by Dijkstra's
 };
