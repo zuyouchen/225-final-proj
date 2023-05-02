@@ -42,7 +42,9 @@ Dijkstra's: Our Dijkstra’s algorithm is similar to BFS in that it is similar t
 Floyd-Warshall: Nomar and Gyury do this
 
 Visualization: The visualization ended up being the last step in the compilation process. Creating the visualization involved:
+
 * coordinating with the members of the team that was responsible for putting the output of BFS/Dijkstra's into a CSV
 * creating some expectations about a standard format that these outputs should follow
-* reading this output into my program
+* reading this output into my program  
+
 I then thoroughly researched the different visualization libraries available to me to visualize data in Python and settled on the `matplotlib` library. The visualization then takes O(n^2) time to read in the CSV since I have to loop through each row in the CSV, split a row into a list, and then loop through the said list; it then takes essentially O(n) time to complete the rest of the computation, with the only other two parts of heavy computation being: having to loop through the outputted BFS/Dijkstra's path linearly and having to write a lambda that runs in O(n) time that computes the point in the read in the dictionary that's closest to the user's mouse. As a quick last note, I couldn't write any formal test cases for this part of the project since testing essentially just involved visually observing whether or not the visualization was correct at each iteration of the development process.
