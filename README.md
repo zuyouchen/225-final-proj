@@ -26,7 +26,7 @@ git clone https://github.com/zuyouchen/225-final-proj.git
 
 3) All files are present upon cloning. We are using MAKE rather than CMAKE, so you need not create a build folder or anything like that.
 
-## Running the Program
+## Running the Program, Part 1: Calculating the Paths
 
 1) Open a bash terminal
 
@@ -57,6 +57,10 @@ and then
 ```
 
 The test suite provides comprehensive checks for all major and minor methods within our program. Each individual test method corresponds to one single method in our main program (BFS, Dijkstra's, addEdge, etc).
+
+## Running the Program, Part 2: Visualizing the Results
+
+
 
 ## Input and Outputs for Each Method
 
