@@ -293,12 +293,14 @@ vector<vector<double>> Graph::FloydWarshall() {
     vector<vector<double>> adj_matrix = edgeListToAdjMatrix(nodes);
     int n = nodes.size();
     vector<vector<double>> dist(n, vector<double>(n, INF));
-
+    for (int i = 0; i < n; i++) {
+        dist[i][i] = 0;
+    }
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             if (i == j) {
                 dist[i][j] = INF;
-            } else if (adj_matrix[i][j] != 0) {
+            } else if (adj_matrix[i][j] != INF) {
                 dist[i][j] = adj_matrix[i][j];
             }
         }
