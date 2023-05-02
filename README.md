@@ -4,9 +4,9 @@ Final Project for CS 225 in Spring 2023, created by Malcolm Kaplan, Evan Chen, T
 ## File Organization
 
 * ### ```\```
-  Project configuration files (README.md, Makefile, contract.md, proposal.md, etc).
+  Project configuration files and project reports (README.md, Makefile, contract.md, proposal.md, etc).
 * ### ```\data```
-  Contains all the input files. Includes a small test csv of nodes and one of prereqs, as well as our actual Elden Ring node csv and prerequisite csv.
+  Contains all the input and output files. Includes a small test csv of nodes and one of prereqs, as well as our actual Elden Ring node csv and prerequisite csv. It also includes out three output files: allrem-output.csv, anypercent-output.csv, and bfs-output.csv, corresponding to the outputs of our three primary path finding algorithms.
 * ### ```\entry```
   Includes our two entry points for the program: the main exec file and the test file.
 * ### ```\src```
@@ -56,5 +56,14 @@ The test suite provides comprehensive checks for all major and minor methods wit
 
 ## Input and Outputs for Each Method
 
+Graph Constructor: Takes in a string as the node file and a string as the prerequisite file. Both can be obtained by copying the path from the csv files in the "data" folder. Does not return anything, but the vector nodes is now populated and each node has its correct data.
+
+BFS: Takes in a starting node, optimally nodes[0], aka "firstStep." Returns a vector of nodes as the path in order of our BFS. Call vectorToCSV and pass in this return value to output a CSV.
+
+Dijkstra's: Takes in a starting node, optimally node[0], aka "firstStep," and a route enum, either "allremembrances" (to hit all nodes) or "anypercent" to hit only required nodes to enter the final boss node and finish the game ("radagonAndEldenBeast"). Returns a vector of nodes as the path in order of our shortest path algorithm. Once again, call vectorToCSV and pass in this return value to output a CSV.
+
+Floyd-Warshall: Has no parameters. Returns a 2D vector of doubles, corresponding to the distances between every pair of nodes in the graph. Not outputted to any location, purely used for testing and understanding routes.
+
+Our visualization is ...
 
 
