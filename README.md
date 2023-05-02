@@ -40,6 +40,8 @@ and then
 ./bin/exec
 ```
 
+Due to our data set being a fixed set of nodes, we do not allow the user to change the input flle. Furthermore, because of our integration into a visualization program, we have enforced the output of our data into the folder \output. After running ./bin/exec, all three output files for our primary path finding algorithms ("allrem-output.csv," "anypercent-output.csv," and "bfs-output.csv") are located in the \output folder.
+
 3) To run our test suite, type
 
 ```bash
