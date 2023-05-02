@@ -55,6 +55,7 @@ Graph::Graph(string nodes_file, string prereqs_file)
         }
     }
 
+    // Now read in prerequisite file
     ifstream prereqs(prereqs_file);
     string line2;
     while (getline(prereqs, line2))
@@ -208,6 +209,7 @@ vector<Graph::Node *> Graph::BFS(Node *start)
 
 // Path finding algorithm for an All-Bosses (all nodes) route or any% route, accounting for node order via prereqs;
 // automatically handles fast travel due to breadth-first nature.
+// Also takes in a route which determines if we run anypercent or all remembrances
 vector<Graph::Node *> Graph::Dijkstra(Node *start, route r)
 {
     map<Node *, double> dist; // dist from start -> node
@@ -229,12 +231,16 @@ vector<Graph::Node *> Graph::Dijkstra(Node *start, route r)
     dist[start] = 0;
     vector<Node *> path;
 
+    // Creates a priority queue of pairs of doubles (times) amd Node pointers
+    // the "greater" part initiailizes the priority queue to be a minimum heap
     priority_queue<pair<double, Node *>, vector<pair<double, Node *>>, greater<pair<double, Node *>>> Q;
     Q.push(make_pair(0, start));
 
     while (!Q.empty())
     {
         Node *u = Q.top().second;
+        // check if we're doing any anypercent, and if so, we want to remove nodes that we don't need to visit
+        // determined by the helper
         if (r == anypercent)
         {
             while (shouldSkipInAnypercent(u))
@@ -274,6 +280,7 @@ vector<Graph::Node *> Graph::Dijkstra(Node *start, route r)
         {
             if (!visited[v.first] && (dist[u] + v.second) < dist[v.first])
             {
+                // once again, only add a node if we should visit it
                 if ((r == anypercent && !shouldSkipInAnypercent(v.first)) || r == allremembrances)
                 {
                     dist[v.first] = dist[u] + v.second;
@@ -302,6 +309,7 @@ vector<Graph::Node *> Graph::Dijkstra(Node *start, route r)
     // hardcoded stop at Elden Beast (which is the node at index 48)
     // World record all remembrances: about 2 hours
     // World record any%: about 1 hour
+    // Computes time via a helper
     if (r == allremembrances)
     {
         all_rem_total_time = computeTimeViaPath(path);
@@ -316,15 +324,19 @@ vector<Graph::Node *> Graph::Dijkstra(Node *start, route r)
 double Graph::computeTimeViaPath(vector<Node *> path)
 {
     double to_return = 0;
+    // we want to loop through all the nodes in our path
     for (size_t i = 0; i < path.size(); ++i)
-    {
+    {   
+        // get the current node and its index (via another helper)
         Node *curr = path.at(i);
         size_t index = getNodeIdx(curr);
+        // add the time of the current node
         to_return += nodes.at(index)->time;
         if (i > 0)
         {
             for (size_t k = index; k > 0; --k)
-            {
+            {   
+                // find the most recent node that would have a path to our current node and add its time
                 if (nodes.at(k)->related[curr] != 0)
                 {
                     to_return += nodes.at(k)->related[curr];
@@ -337,15 +349,20 @@ double Graph::computeTimeViaPath(vector<Node *> path)
 
 bool Graph::shouldSkipInAnypercent(Node *node)
 {
-    // skip all optional areas
-    if (node->name == "ancestralWoods" || node->name == "liurniaTower" || node->name == "snowfieldInner" || node->name == "niallMedalion" || node->name == "placidusax" || node->name == "albinauricMedalion" || node->name == "cariaGate" || node->name == "fiasChamps")
+    // skip all optional areas, must be hardcoded to prevent the algorithm from visitng them
+    if (node->name == "ancestralWoods" || node->name == "liurniaTower" || node->name == "snowfieldInner"
+    || node->name == "niallMedalion" || node->name == "placidusax" || node->name == "albinauricMedalion"
+    || node->name == "cariaGate" || node->name == "fiasChamps")
     {
         return true;
     }
     // if already have killed 2 demigods, don't hunt for any more
     if (shard_bearers_slain >= 2)
     {
-        if (node->name == "margit" || node->name == "smarag" || node->name == "cuckooChurch" || node->name == "gurranq" || node->name == "radahn" || node->name == "redWolf" || node->name == "radahn" || node->name == "rykard" || node->name == "abductorDuo" || node->name == "godskinNoble")
+        if (node->name == "margit" || node->name == "smarag" || node->name == "cuckooChurch"
+        || node->name == "gurranq" || node->name == "radahn" || node->name == "redWolf"
+        || node->name == "radahn" || node->name == "rykard" || node->name == "abductorDuo"
+        || node->name == "godskinNoble")
         {
             return true;
         }
@@ -355,19 +372,20 @@ bool Graph::shouldSkipInAnypercent(Node *node)
 
 vector<vector<double>> Graph::FloydWarshall()
 {
-    vector<vector<double>> adj_matrix = edgeListToAdjMatrix(nodes);
+    vector<vector<double>> adj_matrix = edgeListToAdjMatrix(nodes); // convert the edgeList to a adj matrix 
     int n = nodes.size();
     vector<vector<double>> dist(n, vector<double>(n, INF));
-    vector<vector<bool>> visited(n, vector<bool>(n, false));
+    vector<vector<bool>> visited(n, vector<bool>(n, false)); // to avoid mirrored paths 
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < n; j++)
         {
-            if (i == j)
+            if (i == j) // if we compare the same nodes, seting the distance = 0 and making sure we don't mirror paths.
             {
                 dist[i][j] = 0;
                 visited[i][j] = true;
             }
+            // Igorning all infinite, visited, and 0s to avoid self loops for distances matri
             else if (adj_matrix[i][j] != INF && adj_matrix[i][j] != 0 && !visited[i][j])
             {
                 dist[i][j] = adj_matrix[i][j];
@@ -382,14 +400,14 @@ vector<vector<double>> Graph::FloydWarshall()
         {
             for (int j = 0; j < n; j++)
             {
+                //avoiding all self loop & updating the distance if vertex k is on the shortest path from i to j.
                 if (dist[i][j] > (dist[i][k] + dist[k][j]) && (dist[i][k] != INF && dist[k][j] != INF) && (dist[i][k] != 0 && dist[k][j] != 0))
-                {
+                
                     dist[i][j] = dist[i][k] + dist[k][j];
                 }
             }
         }
-    }
-    return dist;
+    return dist; // return all distances
 }
 
 Graph::Node *Graph::nameToNode(string bossName)
@@ -419,21 +437,21 @@ size_t Graph::getNodeIdx(Node *node)
     return 0;
 }
 
-double Graph::shortestTimeBetween(string bossA, string bossB)
+double Graph::shortestTimeBetween(string nodeAname, string nodeBname)
 {
-    Node *bossANode = nameToNode(bossA);
-    Node *bossBNode = nameToNode(bossB);
+    Node *nodeANode = nameToNode(nodeAname);
+    Node *nodeBNode = nameToNode(nodeBname);
     // if either of our names are not found in the Graph
-    if (bossANode == NULL || bossBNode == NULL)
+    if (nodeANode == NULL || nodeBNode == NULL)
     {
         return -1;
     }
     // convert our node pointers to their index
-    size_t bossAIdx = getNodeIdx(bossANode);
-    size_t bossBIdx = getNodeIdx(bossBNode);
+    size_t nodeAIdx = getNodeIdx(nodeANode);
+    size_t nodeBIdx = getNodeIdx(nodeBNode);
 
     vector<vector<double>> shortestPathDists = FloydWarshall();
-    double time = shortestPathDists[bossAIdx][bossBIdx];
+    double time = shortestPathDists[nodeAIdx][nodeBIdx];
 
     if (time == INF)
     {
@@ -468,7 +486,7 @@ void Graph::VectorToCSV(vector<Node *> input, string output, time_returned type)
 {
     std::ofstream csv;
     csv.open(output);
-    // outputs seconds$minutes$hours for easy input into visualization
+    // puts "runname$seconds$minutes$hours" onto the first line for easy input into visualization
     if (type == bfs)
     {
         csv << "BFS" << '$' << BFS_total_time << '$' << BFS_total_time / 60.00 << '$' << BFS_total_time / 3600.00 << ',' << endl;

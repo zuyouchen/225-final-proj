@@ -101,34 +101,10 @@ void testBFS()
 
     // Test BFS visits every node
     assert(bfs_result2.size() == nodes2.size());
-    cout << "BFS Total Time: " << g2.getBFSTotal() << " seconds; " << g2.getBFSTotal() / 60.00 << " minutes; " << g2.getBFSTotal() / 3600.00 << " hours." << endl;
 }
 
 void testDijkstra()
 {
-    // Graph g;
-    // vector<Graph::Node *> answer;
-
-    // Graph::Node *a = new Graph::Node;
-    // a->name = "A";
-    // a->time = 0;
-    // Graph::Node *b = new Graph::Node;
-    // b->name = "B";
-    // b->time = numeric_limits<double>::infinity();
-    // Graph::Node *c = new Graph::Node;
-    // c->name = "C";
-    // c->time = numeric_limits<double>::infinity();
-    // answer.push_back(a);
-    // answer.push_back(b);
-    // answer.push_back(c);
-    // g.addNode("A", 0);
-    // g.addNode("B", numeric_limits<double>::infinity());
-    // g.addNode("C", numeric_limits<double>::infinity());
-
-    // vector<Graph::Node *> result = g.Dijkstra(a);
-    // for (unsigned int i = 0; i < result.size(); i++) {
-    //     assert(result[i]->name == answer[i]->name && result[i]->time == answer[i]->time && result[i]->related == answer[i]->related);
-    // }
 
     Graph g2("data/nodes.csv", "data/prereqs.csv");
     vector<Graph::Node *> nodes2 = g2.getNodes();
@@ -139,7 +115,6 @@ void testDijkstra()
 
     // make sure we hit every node
     assert(dijkstra_result.size() == nodes2.size());
-    cout << "All-Remembrances (Dijkstra's) Total Time: " << g2.getAllRemsTotal() << " seconds; " << g2.getAllRemsTotal() / 60.00 << " minutes; " << g2.getAllRemsTotal() / 3600.00 << " hours." << endl;
 }
 
 void testAnypercent()
@@ -162,7 +137,6 @@ void testAnypercent()
     // must still visit the final boss node
     assert(dijkstra_result[dijkstra_result.size() - 1]->name == "radagonAndEldenBeast");
 
-    cout << "Anypercent (Dijkstra's) Total Time: " << g.getAnypercentTotal() << " seconds; " << g.getAnypercentTotal() / 60.00 << " minutes; " << g.getAnypercentTotal() / 3600.00 << " hours." << endl;
 }
 
 void testFloydWarshall()
@@ -204,13 +178,6 @@ void testEdgeListToAdjMatrix()
     assert(adjMatrix[0][2] == INF);
     assert(adjMatrix[2][0] == INF);
 
-    // --- PRINTING OUT THE ADJ MATRIX
-    // for (unsigned i = 0; i < adjMatrix.size(); ++i) {
-    //     for (unsigned j = 0; j < adjMatrix[i].size(); ++j) {
-    //         cout << "[" << adjMatrix[i][j] << "]";
-    //     }
-    //     cout << endl;
-    // }
 }
 
 void testNameToNode()
