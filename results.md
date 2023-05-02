@@ -44,6 +44,7 @@ Floyd-Warshall: In contrast to Dijkstra's algorithm that finds the shortest path
 We consider the two cases regarding every pair of source and destination vertices and the intermediary node not yet considered as a valid intermediate vertex:
 * intermediate location of interest is not an intermediate vertex in the shortest path, in which case we maintain the current optimal distance
 * intermediate location of interest is an intermediate vertex in the shortest path, in which the current optimal distance is updated.
+
 Since some nodes can be entered but not left, the path from A to B may exist while from B to A may not. 
 In adapting our current implementations, we also convert the edge list representation of our map into an adjacency matrix for use in our algorithm. We also implement an additional helper function taking two parameters of starting and ending target node strings respectfully to retrieve the distance data calculated from this algorithm.
 
