@@ -59,7 +59,19 @@ and then
 The test suite provides comprehensive checks for all major and minor methods within our program. Each individual test method corresponds to one single method in our main program (BFS, Dijkstra's, addEdge, etc).
 
 ## Running the Program, Part 2: Visualizing the Results
-Our visualization is ...
+1) Navigate through your filessystem to the project directory
+
+2) Look for the folder labeled `Visualization`, open it up, and drag all of the files onto your desktop
+
+3) Run the file labeled `RUN ME RUN ME RUN ME!`, it should be a batch file that opens up a command line, which then opens a GUI
+
+4) After the GUI is opened, select browse
+
+5) Once again, naviagate to the project directory, and select the output you wish to visualize (should be a CSV!!)
+
+6) After you found the file you want to visualize, select open (the bottom rightmost button of the file explorer window that popped up after you hit "Browse")
+
+7) Finally, select OK, and observe
 
 
 ## Input and Outputs for Each Method
