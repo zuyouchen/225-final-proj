@@ -10,9 +10,17 @@ How can we leverage a graph representation of Elden Ring’s bosses, graph trave
 ## Dataset Acquisition and Processing
 - **Data access**: Malcolm is primarily in charge of data acquisition. He is compiling a CSV containing each node that will be represented by our graph structure. He is doing so by exploring the Elden Ring map and noting down important bosses. He is utilizing prior speedruns of the game to populate individual boss node time and personally timing the travel from one node to another (our edges). 
 
-    The CSV is formatted as follows: node name, time it takes at node, related node, time to traverse, etc
+    The node CSV is formatted as follows: node name, time it takes at node, related node, time to traverse, etc
+    
     Ex:
-    firstStep, 70, gatefront, 80, dectusHaight, 120,
+    
+    firstStep,70,gatefront,80,dectusHaight,120,
+    
+    Our prerequisite CSV is formatted as follows: node name, prerequisite (as in, a node that must be visited before the current node)
+    
+    Ex:
+    
+    radahn,draconicTreeSentinel
     
 - **Data format**: The source of our dataset is observation of the popular video game Elden Ring. Through playing the game and observing others playing the game, we have acquired data about the time it takes to complete specific bosses in the game and travel from one boss to another. Our input dataset is a CSV of 56 nodes. We also have another CSV containing a list of the nodes that have prerequisites (nodes that have to be traveled beforehand). We plan to use all the data to answer our preliminary subquestion of the optimal speedrun of all nodes. 
 - **Data Correction** To accomplish this, we're going to:  
@@ -32,10 +40,10 @@ Floyd-Warshall Section 8.9 of larger paper, section titled "Floyd-Warshall algor
 
 **Function Inputs**
 
-- For Dijkstra’s: takes in a starting node of our graph representation, which will always be node “firstStep,” and the graph’s adjacency list, represented as a vector of nodes
-- For Floyd-Warshall: adjacency matrix of our graph. The adjacency matrix is a two-dimensional array where the value at position (i, j) represents the weight of the edge from node i to node j. If there is no edge between nodes i and j, the value at position (i, j) is infinity.
+- For Dijkstra’s: takes in a starting node of our graph representation, which will always be node “firstStep,” and a route type that will determine if we complete an "any%" route that completes the game by defeating only 2 shard bearers and beating the game, and an "All Remembrances" route, where a player must defeat all 15 primary bosses and then finish the game. 
+- For Floyd-Warshall: takes in an adjacency matrix of our graph, which is computed via a function that converts our adjacency list into an adjacency matrix. The adjacency matrix is a two-dimensional array where the value at position (i, j) represents the weight of the edge from node i to node j. If there is no edge between nodes i and j, the value at position (i, j) is infinity.
 - For BFS: takes in a starting node, which will always be node “firstStep"
-- For Visualization: takes in a vector of nodes and visualizes the best path through all of them
+- For Visualization: takes in a CSV of nodes that represents the path we discovered and draws a line through all of them.
 
 **Function Outputs**
 
@@ -49,13 +57,13 @@ The visualization function outputs a line drawn on the actual map of Elden Ring 
 
 **Function Efficiency**
 
-Dijkstra’s Algorithm - Using Dijkstra’s algorithm on our dataset will incur a time complexity of O(V^2) where V is the number of vertices in the graph.
+Dijkstra’s Algorithm - Using Dijkstra’s algorithm on our dataset will incur a time complexity of O(V^3) where V is the number of vertices in the graph. The V^2 time comes from the traditional requirements of Dijkstra's algorithm, but since we also have a nested for loop to account for prerequisites. Furthermore, at the end of our algorithm, we will require an additional triple nested for loop to determine the total time of our route.
 
 Floyd-Warshall Algorithm - This algorithm is O(V^3), where V is the number of vertices in the graph. This makes it less efficient than Dijkstra's algorithm but it can be used to find the shortest path between all pairs, whereas Dijkstra's algorithm can only be used to find the shortest path between a single pair.
 
-BFS - implemented properly, BFS should incur a time complexity of O(n) where n is the number of nodes in our graph.
+BFS - Since our BFS will need to handle prerequisite nodes, our algorithm will run at worst case O(V^2). 
 
-Visualization - Our function will traverse our shortest path using whichever algorithm we want to visualize, so it will either be O(V^2) if we are visualizing Dijkstra's, O(V^3) if Floyd-Warshall, or O(n) if we are visualizing BFS.
+Visualization - Our visualization will run at O(n^2) time: it reads in the CSV (and thus loops through all n rows), split a row into a list, and then loop through the list.
 
 
 **Testing Strategy** 
@@ -79,5 +87,5 @@ Code the graph representation
 Complete traversal through the graph (BFS) (done)
 Code Djikstra’s algorithm  (done)
 Code Floyd-Warshall to answer all-pairs-shortest-path (done)
-Account for pre-requisites, fast-travel, etc. (done)
+Account for pre-requisites, etc. (done)
 Visualize w/ Python  
