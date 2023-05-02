@@ -410,12 +410,12 @@ vector<vector<double>> Graph::FloydWarshall()
     return dist; // return all distances
 }
 
-Graph::Node *Graph::nameToNode(string bossName)
+Graph::Node *Graph::nameToNode(string nodeName)
 {
     // if we do find a matching node
     for (size_t i = 0; i < nodes.size(); ++i)
     {
-        if (nodes.at(i)->name == bossName)
+        if (nodes.at(i)->name == nodeName)
         {
             return nodes.at(i);
         }
