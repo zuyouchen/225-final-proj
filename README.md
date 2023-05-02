@@ -42,7 +42,7 @@ and then
 ./bin/exec
 ```
 
-Due to our data set being a fixed set of nodes, we do not allow the user to change the input flle. Furthermore, because of our integration into a visualization program, we have enforced the output of our data into the folder \output. After running ./bin/exec, all three output files for our primary path finding algorithms ("allrem-output.csv," "anypercent-output.csv," and "bfs-output.csv") are located in the \output folder.
+Due to our data set being a fixed set of nodes, we do not allow the user to change the input flle. Furthermore, because of our integration into a visualization program, we have enforced the output of our data into the directory `\output`. After making and running `./bin/exec`, we expect all three output files for our primary path finding algorithms ("allrem-output.csv," "anypercent-output.csv," and "bfs-output.csv") are located in the `\output` directory.
 
 3) To run our test suite, type
 
@@ -59,19 +59,40 @@ and then
 The test suite provides comprehensive checks for all major and minor methods within our program. Each individual test method corresponds to one single method in our main program (BFS, Dijkstra's, addEdge, etc).
 
 ## Running the Program, Part 2: Visualizing the Results
-
+Our visualization is ...
 
 
 ## Input and Outputs for Each Method
 
-Graph Constructor: Takes in a string as the node file and a string as the prerequisite file. Both can be obtained by copying the path from the csv files in the "data" folder. Does not return anything, but the vector nodes is now populated and each node has its correct data.
+`Graph(string nodes_files, string prereqs_file)` - Graph Constructor. Takes in a string as the node file and a string as the prerequisite file. Both can be obtained by copying the path from the csv files in the "data" folder. Does not return anything, but the vector nodes is now populated and each node has its correct data. <br>
 
-BFS: Takes in a starting node, optimally nodes[0], aka "firstStep." Returns a vector of nodes as the path in order of our BFS. Call vectorToCSV and pass in this return value to output a CSV.
+`~Graph()` - Destructor for our Graph. Frees allocated memory (pointers to nodes in our Graph). <br>
 
-Dijkstra's: Takes in a starting node, optimally node[0], aka "firstStep," and a route enum, either "allremembrances" (to hit all nodes) or "anypercent" to hit only required nodes to enter the final boss node and finish the game ("radagonAndEldenBeast"). Returns a vector of nodes as the path in order of our shortest path algorithm. Once again, call vectorToCSV and pass in this return value to output a CSV.
+`void addNode(string name, double time)` - Helper function used to populate our graph. Adds a node given its name and time to complete. Called in constructor. <br>
 
-Floyd-Warshall: Has no parameters. Returns a 2D vector of doubles, corresponding to the distances between every pair of nodes in the graph. Not outputted to any location, purely used for testing and understanding routes.
+`void addEdge(string name1, string name2, double weight)` - Helper function used to populate our graph. Adds an edge given two nodes and the weight of said edge. Called in constructor. <br>
 
-Our visualization is ...
+`vector<Node *> BFS(Node* start)` - Takes in a starting node, optimally nodes[0], aka "firstStep." Returns a vector of nodes as the path in order of our BFS. Call vectorToCSV and pass in this return value to output a CSV of the path result. <br>
 
+`Dijkstra(Node* start, route r)` - Takes in a starting node, optimally node[0], aka "firstStep," and a route enum, either "allremembrances" (to hit all nodes) or "anypercent" to hit only required nodes to enter the final boss node and finish the game ("radagonAndEldenBeast"). Returns a vector of nodes as the path in order of our shortest path algorithm. Once again, call vectorToCSV and pass in this return value to output a CSV of the path result. <br>
+
+`vector<vector<double>> FloydWarshall()` - Has no parameters. Returns a 2D vector of doubles, corresponding to the shortest distances between every pair of nodes in the graph, via the FloydWarshall algorithm. Not outputted to any location, purely used for testing and understanding routes. <br>
+
+`vector<vector<double>> edgeListToAdjMatrix(const vector<Node *> nodes)` - Takes in our vector of Graph nodes. Converts our constructed Graph (edge list) to an adjacency matrix for usage in FloydWarshall algorithm. Returns a 2D vector of doubles representing the adjacency matrix of the graph.  <br>
+
+`void print()` - Assumes our graph is populated. Prints our edge list graph structure to cout. <br>
+
+`vector<Node *> getNodes()` - Assumes our graph is populated. Getter for the nodes of our Graph (edge list). <br>
+
+`void VectorToCSV(vector<Node *> input, string output, time_returned type)` - Prints our path output from Dijkstra's or BFS to a CSV. Takes in the vector<Node* > path as `input`, a filepath `output`, and a enum type of time we are outputting (BFS, All Remembrances Route, or Any% route). <br>
+
+`bool shouldSkipInAnypercent(Node * node)` - Helper function that determines if we should traverse a route in an any% run. Returns `true` if we should traverse, `false` if we shouldn't. <br>
+
+`double computeTimeViaPath(vector<Node *> path)` - Given a path as input, computes the traversal time this path would take. Called after we calculate best paths for any%, allRem routes so that we can understand the time it takes for said path. <br>
+
+`Node* nameToNode(string bossName)` - Takes in a bossName and returns the pointer to said boss (node) in our graph structure. Helper function used to answer our APSP problem, called in `shortestTimeBetween()`. <br>
+
+`size_t getNodeIdx(Node * node)` - Takes in a node and finds it's numeric index in our vector of nodes. Helper function used to answer our APSP problem, called in `shortestTimeBetween()`. Needed because our FloydWarshall outputs a 2D vector that we need to index to find shortest-path distance values. <br>
+
+`double shortestTimeBetween(string bossA, string bossB)` - Answers our APSP by running FloydWarshall. Takes in two boss names as strings (case sensitive to our data in `nodes.csv`).  Returns the shortest path time between said two bosses, or `-1` if such a path does not exist. Calls `nameToNode()` and `getNodeIdx()`.  <br>
 
