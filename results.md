@@ -17,7 +17,19 @@ While the route we have outputted is interesting and exciting, the inability to 
 
 ## Output and Correctness of Each Major Algorithm
 
-Graph Representation: Our graph representation begins with a CSV of nodes and a CSV of prerequisites. The node CSV’s lines begin with a node and its time to complete (often 0 if it’s just a location or a number if it’s a boss to fight), and all nodes following it are related nodes, with their subsequent number being the time it takes to travel between the current line’s node and the related node. These times were recorded through analyses of existing speedruns as well as personal testing in-game. The prerequisite CSV contains a node followed by its prerequisite, or a node that must be visited before entering the node itself. The only unique one here is that Godfrey (Golden Shade) must be visited after two demigods/shard bearers are defeated, which is handled separately in the read-in function.
+Graph Representation: Our graph representation begins with a CSV of nodes and a CSV of prerequisites. The node CSV’s lines begin with a node and its time to complete (often 0 if it’s just a location or a number if it’s a boss to fight), and all nodes following it are related nodes, with their subsequent number being the time it takes to travel between the current line’s node and the related node. 
+
+Example of a line in the nodes CSV: firstStep,70,gatefront,80,dectusHaight,120,
+(the node itself is firstStep and it takes 70 seconds to pass through; it is related to gatefront with a travel time of 80 seconds and dectusHaight with a travel time of 120 seconds).
+
+These times were recorded through analyses of existing speedruns as well as personal testing in-game. The prerequisite CSV contains a node followed by its prerequisite, or a node that must be visited before entering the node itself. The only unique one here is that Godfrey (Golden Shade) must be visited after two demigods/shard bearers are defeated, which is handled separately in the read-in function.
+
+Example of a line in the prerequisite CSV: ainselMain, liurniaTower,
+(we must visit liurniaTower before visiting ainselMain)
+
+Another example (the only unique one): godfreyGoldenShade, two_shard_bearers,
+(to fight godfreyGoldenShade, we must have defeated 2 shard bearers, and this total is incremented each time we do and thus is handled in code almost the same way). 
+
 When calling the Graph constructor and passing in strings to identity the node CSV and the prereq CSV, our algorithm parses through them and feeds the information into a node struct which contains all the important information for each node. Due to the caveat of needing to assign names, times, related nodes, and prerequisites, our algorithm runs at O(n^3). Our primary means of testing this algorithm was printing out the result and verifying that it correctly read in the CSV; each node had the correct related nodes and prerequisites. 
 
 BFS: Our breadth-first search algorithm begins at a start node (always called “firstStep,” the location that the player begins the game at). Our algorithm is almost a traditional BFS save for one consideration: we must account for prerequisite nodes. To do this, we check if we’ve visited the prerequisite nodes, and while we haven’t, we remove the node and add it onto the end of the queue. Since this is a nested loop within our overarching loop, this pushes our algorithm up to a worst case O(n^2) runtime. To test this algorithm, we assert that it hits every possible node, and we inputted our resulting vector path into the visualization and verified that it followed a breadth-first nature. 
