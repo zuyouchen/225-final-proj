@@ -358,7 +358,7 @@ vector<vector<double>> Graph::FloydWarshall()
     vector<vector<double>> adj_matrix = edgeListToAdjMatrix(nodes);
     int n = nodes.size();
     vector<vector<double>> dist(n, vector<double>(n, INF));
-
+    vector<vector<bool>> visited(n, vector<bool>(n, false));
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < n; j++)
@@ -366,10 +366,13 @@ vector<vector<double>> Graph::FloydWarshall()
             if (i == j)
             {
                 dist[i][j] = 0;
+                visited[i][j] = true;
             }
-            else if (adj_matrix[i][j] != INF && adj_matrix[i][j] != 0)
+            else if (adj_matrix[i][j] != INF && adj_matrix[i][j] != 0 && !visited[i][j])
             {
                 dist[i][j] = adj_matrix[i][j];
+                visited[i][j] = true;
+                visited[j][i] = true;
             }
         }
     }
@@ -379,8 +382,10 @@ vector<vector<double>> Graph::FloydWarshall()
         {
             for (int j = 0; j < n; j++)
             {
-                if (dist[i][j] > (dist[i][k] + dist[k][j]) && (dist[k][j] != INF && dist[i][k] != INF) && (dist[k][j] != 0 && dist[i][k] != 0))
+                if (dist[i][j] > (dist[i][k] + dist[k][j]) && (dist[i][k] != INF && dist[k][j] != INF) && (dist[i][k] != 0 && dist[k][j] != 0))
+                {
                     dist[i][j] = dist[i][k] + dist[k][j];
+                }
             }
         }
     }

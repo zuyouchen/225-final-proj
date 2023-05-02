@@ -5,7 +5,8 @@
 using namespace std;
 #define INF 99999
 
-void testGraphPopulation() {
+void testGraphPopulation()
+{
     Graph g("data/test_nodes.csv", "data/test_prereqs.csv");
     vector<Graph::Node *> nodes = g.getNodes();
     assert(nodes[0]->name == "node1" && nodes[0]->time == 10);
@@ -21,26 +22,31 @@ void testGraphPopulation() {
     assert(nodes[2]->related.count(nodes[1]) == 1);
 }
 
-void testPrereqReading() {
+void testPrereqReading()
+{
     Graph g("data/test_nodes.csv", "data/test_prereqs.csv");
     vector<Graph::Node *> nodes = g.getNodes();
 
     int num_prereqs = 0;
-    for (size_t i = 0; i < nodes.size(); ++i) {
-        if (nodes[i]->prereq) {
+    for (size_t i = 0; i < nodes.size(); ++i)
+    {
+        if (nodes[i]->prereq)
+        {
             num_prereqs++;
         }
     }
     int rows = 0;
     ifstream file("data/test_prereqs.csv");
     string line;
-    while (getline(file, line)) {
+    while (getline(file, line))
+    {
         rows++;
     }
     assert(num_prereqs == rows);
 }
 
-void testAddNode() {
+void testAddNode()
+{
     Graph g("data/test_nodes.csv", "data/test_prereqs.csv");
     vector<Graph::Node *> nodes = g.getNodes();
     size_t original_size = nodes.size();
@@ -56,7 +62,8 @@ void testAddNode() {
     assert(g.getNodes()[(g.getNodes().size() - 1)]->related.size() == 0);
 }
 
-void testAddEdge() {
+void testAddEdge()
+{
     Graph g("data/test_nodes.csv", "data/test_prereqs.csv");
     vector<Graph::Node *> nodes = g.getNodes();
 
@@ -74,7 +81,8 @@ void testAddEdge() {
     assert(node3->related[node1] == -1);
 }
 
-void testBFS() {
+void testBFS()
+{
     Graph g("data/test_nodes.csv", "data/test_prereqs.csv");
     vector<Graph::Node *> nodes = g.getNodes();
     vector<Graph::Node *> bfs_result = g.BFS(nodes[0]);
@@ -96,7 +104,8 @@ void testBFS() {
     cout << "BFS Total Time: " << g2.getBFSTotal() << " seconds; " << g2.getBFSTotal() / 60.00 << " minutes; " << g2.getBFSTotal() / 3600.00 << " hours." << endl;
 }
 
-void testDijkstra() {
+void testDijkstra()
+{
     // Graph g;
     // vector<Graph::Node *> answer;
 
@@ -123,7 +132,7 @@ void testDijkstra() {
 
     Graph g2("data/nodes.csv", "data/prereqs.csv");
     vector<Graph::Node *> nodes2 = g2.getNodes();
-    vector<Graph::Node*> dijkstra_result = g2.Dijkstra(nodes2[0], allremembrances);
+    vector<Graph::Node *> dijkstra_result = g2.Dijkstra(nodes2[0], allremembrances);
 
     // write to file for testing
     g2.VectorToCSV(dijkstra_result, "/workspaces/cs225env/225-final-proj/data/allrem-output.csv", allremtime);
@@ -133,16 +142,18 @@ void testDijkstra() {
     cout << "All-Remembrances (Dijkstra's) Total Time: " << g2.getAllRemsTotal() << " seconds; " << g2.getAllRemsTotal() / 60.00 << " minutes; " << g2.getAllRemsTotal() / 3600.00 << " hours." << endl;
 }
 
-void testAnypercent() {
+void testAnypercent()
+{
     Graph g("data/nodes.csv", "data/prereqs.csv");
     vector<Graph::Node *> nodes = g.getNodes();
-    vector<Graph::Node*> dijkstra_result = g.Dijkstra(nodes[0], anypercent);
+    vector<Graph::Node *> dijkstra_result = g.Dijkstra(nodes[0], anypercent);
     g.VectorToCSV(dijkstra_result, "/workspaces/cs225env/225-final-proj/data/anypercent-output.csv", anypercenttime);
-    
+
     int shard_bearers_visited = 0;
-    for (size_t i = 0; i < dijkstra_result.size(); ++i) {
-        if (dijkstra_result[i]->name == "godrick" || dijkstra_result[i]->name == "rennala"
-        || dijkstra_result[i]->name == "radahn" || dijkstra_result[i]->name == "rykard" ) {
+    for (size_t i = 0; i < dijkstra_result.size(); ++i)
+    {
+        if (dijkstra_result[i]->name == "godrick" || dijkstra_result[i]->name == "rennala" || dijkstra_result[i]->name == "radahn" || dijkstra_result[i]->name == "rykard")
+        {
             shard_bearers_visited++;
         }
     }
@@ -154,11 +165,19 @@ void testAnypercent() {
     cout << "Anypercent (Dijkstra's) Total Time: " << g.getAnypercentTotal() << " seconds; " << g.getAnypercentTotal() / 60.00 << " minutes; " << g.getAnypercentTotal() / 3600.00 << " hours." << endl;
 }
 
-void testFloydWarshall() {
-    assert(true);
+void testFloydWarshall()
+{
+    Graph g("data/nodes.csv", "data/prereqs.csv");
+    assert(g.shortestTimeBetween("firstStep", "gatefront") == 80);
+    assert(g.shortestTimeBetween("firstStep", "margit") == 150);
+    assert(g.shortestTimeBetween("godrick", "redWolf") == 249);
+    assert(g.shortestTimeBetween("redWolf", "godrick") == -1);
+    assert(g.shortestTimeBetween("firstStep", "malenia") == 1701);
+    assert(g.shortestTimeBetween("malenia", "firstStep") == -1);
 }
 
-void testEdgeListToAdjMatrix() {
+void testEdgeListToAdjMatrix()
+{
     /*
      * With our simple graph (test_nodes.csv), we should get adj matrix that looks like:
      * [[0, 20, 0],
@@ -194,20 +213,22 @@ void testEdgeListToAdjMatrix() {
     // }
 }
 
-void testNameToNode() {
+void testNameToNode()
+{
     Graph g("data/nodes.csv", "data/prereqs.csv");
-    vector<Graph::Node*> nodes = g.getNodes();
+    vector<Graph::Node *> nodes = g.getNodes();
     // Valid Nodes
     assert(g.nameToNode("firstStep") == nodes.at(0));
     assert(g.nameToNode("gatefront") == nodes.at(1));
     // Invalid Nodes
-    assert(g.nameToNode("abc") == NULL); 
-    assert(g.nameToNode("firststep") == NULL); 
+    assert(g.nameToNode("abc") == NULL);
+    assert(g.nameToNode("firststep") == NULL);
 }
 
-void testShortestTimeBetween() {
+void testShortestTimeBetween()
+{
     Graph g("data/nodes.csv", "data/prereqs.csv");
-    vector<Graph::Node*> nodes = g.getNodes();
+    vector<Graph::Node *> nodes = g.getNodes();
     // Nodes that are a single edge apart
     assert(g.shortestTimeBetween("firstStep", "gatefront") == 80);
     assert(g.shortestTimeBetween("lorettaHaligtree", "malenia") == 240);
@@ -222,7 +243,8 @@ void testShortestTimeBetween() {
     assert(g.shortestTimeBetween("firstStep", "mohg") == -1);
 }
 
-int main() {
+int main()
+{
     cout << "Test file running" << endl;
 
     cout << "Testing Graph Population..." << endl;
