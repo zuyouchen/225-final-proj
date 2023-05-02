@@ -6,7 +6,9 @@ Final Project for CS 225 in Spring 2023, created by Malcolm Kaplan, Evan Chen, T
 * ### ```\```
   Project configuration files and project reports (README.md, Makefile, contract.md, proposal.md, etc).
 * ### ```\data```
-  Contains all the input and output files. Includes a small test csv of nodes and one of prereqs, as well as our actual Elden Ring node csv and prerequisite csv. It also includes out three output files: allrem-output.csv, anypercent-output.csv, and bfs-output.csv, corresponding to the outputs of our three primary path finding algorithms.
+  Contains all the input files. Includes a small test csv of nodes and one of prereqs, as well as our actual Elden Ring node csv and prerequisite csv.
+ * ### ```\output```
+  This folder includes all three output files: allrem-output.csv, anypercent-output.csv, and bfs-output.csv, corresponding to the outputs of our three primary path finding algorithms. These files are updated to reflect the path that our traversal takes after running ./bin/exec.
 * ### ```\entry```
   Includes our two entry points for the program: the main exec file and the test file.
 * ### ```\src```
