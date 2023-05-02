@@ -104,9 +104,9 @@ The test suite provides comprehensive checks for all major and minor methods wit
 
 `double computeTimeViaPath(vector<Node *> path)` - Given a path as input, computes the traversal time this path would take. Called after we calculate best paths for any%, allRem routes so that we can understand the time it takes for said path. <br>
 
-`Node* nameToNode(string bossName)` - Takes in a bossName and returns the pointer to said boss (node) in our graph structure. Helper function used to answer our APSP problem, called in `shortestTimeBetween()`. <br>
+`Node* nameToNode(string nodeName)` - Takes in a bossName and returns the pointer to said boss (node) in our graph structure. Helper function used to answer our APSP problem, called in `shortestTimeBetween()`. <br>
 
 `size_t getNodeIdx(Node * node)` - Takes in a node and finds it's numeric index in our vector of nodes. Helper function used to answer our APSP problem, called in `shortestTimeBetween()`. Needed because our FloydWarshall outputs a 2D vector that we need to index to find shortest-path distance values. <br>
 
-`double shortestTimeBetween(string bossA, string bossB)` - Answers our APSP by running FloydWarshall. Takes in two boss names as strings (case sensitive to our data in `nodes.csv`).  Returns the shortest path time between said two bosses, or `-1` if such a path does not exist. Calls `nameToNode()` and `getNodeIdx()`.  <br>
+`double shortestTimeBetween(string nodeA, string nodeB)` - Answers our APSP by running FloydWarshall. Takes in two boss names as strings (case sensitive to our data in `nodes.csv`).  Returns the shortest path time between said two bosses, or `-1` if such a path does not exist. Calls `nameToNode()` and `getNodeIdx()`.  <br>
 
