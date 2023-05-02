@@ -92,11 +92,11 @@ The test suite provides comprehensive checks for all major and minor methods wit
 
 `vector<vector<double>> FloydWarshall()` - Has no parameters. Returns a 2D vector of doubles, corresponding to the shortest distances between every pair of nodes in the graph, via the FloydWarshall algorithm. Not outputted to any location, purely used for testing and understanding routes. <br>
 
-`vector<vector<double>> edgeListToAdjMatrix(const vector<Node *> nodes)` - Takes in our vector of Graph nodes. Converts our constructed Graph (edge list) to an adjacency matrix for usage in FloydWarshall algorithm. Returns a 2D vector of doubles representing the adjacency matrix of the graph.  <br>
+`vector<vector<double>> adjListToAdjMatrix(const vector<Node *> nodes)` - Takes in our vector of Graph nodes. Converts our constructed Graph (adjacency list) to an adjacency matrix for usage in FloydWarshall algorithm. Returns a 2D vector of doubles representing the adjacency matrix of the graph.  <br>
 
-`void print()` - Assumes our graph is populated. Prints our edge list graph structure to cout. <br>
+`void print()` - Assumes our graph is populated. Prints our adj list graph structure to cout. <br>
 
-`vector<Node *> getNodes()` - Assumes our graph is populated. Getter for the nodes of our Graph (edge list). <br>
+`vector<Node *> getNodes()` - Assumes our graph is populated. Getter for the nodes of our Graph (adj list). <br>
 
 `void VectorToCSV(vector<Node *> input, string output, time_returned type)` - Prints our path output from Dijkstra's or BFS to a CSV. Takes in the vector<Node* > path as `input`, a filepath `output`, and a enum type of time we are outputting (BFS, All Remembrances Route, or Any% route). <br>
 

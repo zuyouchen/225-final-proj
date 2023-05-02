@@ -372,7 +372,7 @@ bool Graph::shouldSkipInAnypercent(Node *node)
 
 vector<vector<double>> Graph::FloydWarshall()
 {
-    vector<vector<double>> adj_matrix = edgeListToAdjMatrix(nodes); // convert the edgeList to a adj matrix 
+    vector<vector<double>> adj_matrix = adjListToAdjMatrix(nodes); // convert the adj list to a adj matrix 
     int n = nodes.size();
     vector<vector<double>> dist(n, vector<double>(n, INF));
     vector<vector<bool>> visited(n, vector<bool>(n, false)); // to avoid mirrored paths 
@@ -461,7 +461,7 @@ double Graph::shortestTimeBetween(string nodeAname, string nodeBname)
     return time;
 }
 
-vector<vector<double>> Graph::edgeListToAdjMatrix(const vector<Graph::Node *> nodes)
+vector<vector<double>> Graph::adjListToAdjMatrix(const vector<Graph::Node *> nodes)
 {
     // initialize our adj matrix with 0s
     int n = nodes.size();

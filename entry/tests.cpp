@@ -150,7 +150,7 @@ void testFloydWarshall()
     assert(g.shortestTimeBetween("malenia", "firstStep") == -1);
 }
 
-void testEdgeListToAdjMatrix()
+void testAdjListToAdjMatrix()
 {
     /*
      * With our simple graph (test_nodes.csv), we should get adj matrix that looks like:
@@ -162,7 +162,7 @@ void testEdgeListToAdjMatrix()
      */
     Graph g("data/test_nodes.csv", "data/test_prereqs.csv");
     vector<Graph::Node *> nodes = g.getNodes();
-    vector<vector<double>> adjMatrix = g.edgeListToAdjMatrix(nodes);
+    vector<vector<double>> adjMatrix = g.adjListToAdjMatrix(nodes);
     assert(adjMatrix.size() == 3);
     assert(adjMatrix[0].size() == 3);
     // Diagonal should be INF
@@ -238,8 +238,8 @@ int main()
     cout << "Testing Floyd-Warshall..." << endl;
     testFloydWarshall();
 
-    cout << "Testing Edge List -> Adj Matrix..." << endl;
-    testEdgeListToAdjMatrix();
+    cout << "Testing Adj List -> Adj Matrix..." << endl;
+    testAdjListToAdjMatrix();
 
     cout << "Testing nameToNode..." << endl;
     testNameToNode();

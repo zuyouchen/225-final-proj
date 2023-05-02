@@ -86,7 +86,7 @@ public:
     vector<vector<double>> FloydWarshall();
 
     /**
-     * Converts a graph represented as an edge list to an adjacency matrix.
+     * Converts a graph represented as an adjacency list to an adjacency matrix.
      * NOTE: From our population of the graph structure,
      * since the input file is processed sequentially,
      * nodes and edges are added to the private nodes vector in the correct order to translate to [i][j] matrix.
@@ -94,7 +94,7 @@ public:
      * @param our populated Graph of vector<Node *> that represents the graph as an edge list
      * @return a two-dimensional array representing the adjacency matrix. the value at matrix[i][j] represents the weight of an edge between nodes i and j (and INF if no edge exists)
      */
-    vector<vector<double>> edgeListToAdjMatrix(const vector<Node *> nodes);
+    vector<vector<double>> adjListToAdjMatrix(const vector<Node *> nodes);
 
     // ------ HELPERS ------
 
