@@ -44,6 +44,7 @@ We consider the two cases regarding every pair of source and destination vertice
     -intermediate location of interest is not an intermediate vertex in the shortest path, in which case we maintain the current optimal distance
     -intermediate location of interest is an intermediate vertex in the shortest path, in which the current optimal distance is updated.
 Since some nodes can be entered but not left, the path from A to B may exist while from B to A may not. 
+We also convert the edge list representation of our map into an adjacency matrix for use in our algorithm.
 
 
 Visualization: The visualization ended up being the last step in the compilation process. Creating the visualization involved:
