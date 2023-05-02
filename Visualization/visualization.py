@@ -293,7 +293,7 @@ def final_product(csv_contents):
 
 
 if __name__ == '__main__':
-	layout = [[sg.Text('Select a file to open:')],
+	layout = [[sg.Text('Select CSV from Project Output Directory:')],
 	          [sg.Input(key='_FILEBROWSE_', enable_events=True, visible=False), sg.FileBrowse()],
 	          [sg.OK(), sg.Cancel()]]
 
