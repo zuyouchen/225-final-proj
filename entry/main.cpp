@@ -28,6 +28,17 @@ int main() {
     cout << "Computed time to complete BFS route: " << g.getBFSTotal() << " seconds; " << g.getBFSTotal() / 60.00 << " minutes; " << g.getBFSTotal() / 3600.00 << " hours." << endl;
     cout << "" << endl;
 
+    cout << "Floyd-Warshall outputs of shortest times between bosses (all pairs shortest path):" << endl;
+
+    cout << "Shortest time between firstStep and gatefront: " << g.shortestTimeBetween("firstStep", "gatefront") << " seconds" <<  endl;
+    cout << "Shortest time between firstStep and margit: " << g.shortestTimeBetween("firstStep", "margit") << " seconds" <<  endl;
+    cout << "Shortest time between godrick and redWolf: " << g.shortestTimeBetween("godrick", "redWolf") << " seconds" <<  endl;
+    cout << "Shortest time between firstStep and mohg (does not exist): " << g.shortestTimeBetween("firstStep", "mohg") << " seconds" <<  endl;
+
+    // Graph::Node* valid = g.nameToNode("firstStep");
+    // Graph::Node* invalid = g.nameToNode("abc");
+    // cout << valid << " | " << invalid << endl;
+
     //Graph g("data/test_node.csv", "data/test_prereqs.csv");
     // vector<vector<double>> test_all_paths = g.FloydWarshall();
 

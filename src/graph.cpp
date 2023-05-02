@@ -257,12 +257,7 @@ double Graph::computeTimeViaPath(vector<Node*> path) {
     double to_return = 0;
     for (size_t i = 0; i < path.size(); ++i) {
         Node* curr = path.at(i);
-        size_t index = 0;
-        for (size_t j = 0; j < nodes.size(); ++j) {
-            if (nodes.at(j) == curr) {
-                index = j;
-            }
-        }
+        size_t index = getNodeIdx(curr);
         to_return += nodes.at(index)->time;
         if (i > 0) {
             for (size_t k = index; k > 0; --k) {
@@ -318,6 +313,48 @@ vector<vector<double>> Graph::FloydWarshall() {
         }
     }
     return dist;
+}
+
+Graph::Node* Graph::nameToNode(string bossName) {
+    // if we do find a matching node
+    for (size_t i = 0; i < nodes.size(); ++i) {
+        if (nodes.at(i) -> name == bossName) {
+            return nodes.at(i);
+        }
+    }
+    // if we never find a matching node
+    return NULL;
+}
+
+size_t Graph::getNodeIdx(Node* node) {
+    for (size_t i = 0; i < nodes.size(); ++i) {
+        if (nodes.at(i) == node) {
+            return i;
+        }
+    }
+    // should never reach this (because we pass a valid pointer), but need for compiler
+    return 0;
+}
+
+double Graph::shortestTimeBetween(string bossA, string bossB) {
+    Node* bossANode = nameToNode(bossA);
+    Node* bossBNode = nameToNode(bossB);
+    // if either of our names are not found in the Graph
+    if (bossANode == NULL || bossBNode == NULL) {
+        return -1; 
+    }
+    // convert our node pointers to their index
+    size_t bossAIdx = getNodeIdx(bossANode);
+    size_t bossBIdx = getNodeIdx(bossBNode);
+
+    vector<vector<double>> shortestPathDists = FloydWarshall();
+    double time = shortestPathDists[bossAIdx][bossBIdx];
+
+    if (time == INF) {
+        return -1;
+    }
+
+    return time; 
 }
 
 vector<vector<double>> Graph::edgeListToAdjMatrix(const vector<Graph::Node *> nodes) {

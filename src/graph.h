@@ -131,10 +131,33 @@ public:
 
     /**
      * Helper function to compute a total time given a path of nodes
-     * @param a path, composed of node pointers
+     * @param path a path, composed of node pointers
      * @returns a double, computing the total time in seconds that the run takes
      */
     double computeTimeViaPath(vector<Node*> path);
+
+    /**
+     * Function that finds the pointer to a Node in our graph given a name (case-sensitive!)
+     * @param bossName string name of a boss
+     * @returns a pointer to a node, or NULL if the node does not exist matching the name 
+    */
+    Node* nameToNode(string bossName);
+
+    /**
+     * Function that finds the index of a node given a pointer to it
+     * @param node pointer to the node
+    */
+    size_t getNodeIdx(Node* node);
+
+    /**
+     * Function that uses the Floyd-Warshall algorithm to output the fastest time it takes to traverse between two nodes (Boss A, Boss B)
+     * Answers our All Pairs Shortest Path problem (with only the time)
+     * 
+     * @param bossA first boss name
+     * @param bossB second boss name
+     * @returns a double, the shortest time between bossA and bossB. returns -1 if either name passed is invalid, or if the path does not exist
+    */
+    double shortestTimeBetween(string bossA, string bossB); 
 
     /**
      * Helper functions to return the private time variables

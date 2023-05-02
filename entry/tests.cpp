@@ -194,6 +194,34 @@ void testEdgeListToAdjMatrix() {
     // }
 }
 
+void testNameToNode() {
+    Graph g("data/nodes.csv", "data/prereqs.csv");
+    vector<Graph::Node*> nodes = g.getNodes();
+    // Valid Nodes
+    assert(g.nameToNode("firstStep") == nodes.at(0));
+    assert(g.nameToNode("gatefront") == nodes.at(1));
+    // Invalid Nodes
+    assert(g.nameToNode("abc") == NULL); 
+    assert(g.nameToNode("firststep") == NULL); 
+}
+
+void testShortestTimeBetween() {
+    Graph g("data/nodes.csv", "data/prereqs.csv");
+    vector<Graph::Node*> nodes = g.getNodes();
+    // Nodes that are a single edge apart
+    assert(g.shortestTimeBetween("firstStep", "gatefront") == 80);
+    assert(g.shortestTimeBetween("lorettaHaligtree", "malenia") == 240);
+
+    // Nodes that are >1 edge apart
+    assert(g.shortestTimeBetween("firstStep", "margit") == 150);
+    assert(g.shortestTimeBetween("godrick", "redWolf") == 249);
+
+    // No valid path (invalid name)
+    assert(g.shortestTimeBetween("firstStep", "abc") == -1);
+    // No valid path (no path)
+    assert(g.shortestTimeBetween("firstStep", "mohg") == -1);
+}
+
 int main() {
     cout << "Test file running" << endl;
 
@@ -223,6 +251,12 @@ int main() {
 
     cout << "Testing Edge List -> Adj Matrix..." << endl;
     testEdgeListToAdjMatrix();
+
+    cout << "Testing nameToNode..." << endl;
+    testNameToNode();
+
+    cout << "Testing shortestTimeBetween..." << endl;
+    testShortestTimeBetween();
 
     cout << "All tests passed" << endl;
 
