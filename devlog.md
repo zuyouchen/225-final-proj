@@ -14,6 +14,7 @@ Broken down by individual work, based mainly off commits to this repository and 
 4/22: Added basic tests for graph population <br>
 4/29: Added documentation to each function in `Graph.h`, modified existing MD files to pivot to Floyd-Warshall for one of our deliverables, wrote function that converts our edge list to an adjacency matrix (`Graph::edgeListToAdjMatrix()`) <br>
 4/30: Debugging Dijkstra's (was not hitting all nodes), in collab. with Malcolm's work <br>
+5/1: Added functions to answer our all-pairs-shortest-path problem. `Graph::shortestTimeBetween()` finds the shortest time path between two bosses given their names. The path times are calculated with the Floyd-Warshall algorithm (`Graph::FloydWarshall()`). Some helper functions made to cleanup code, including `Graph::getNodeIdx()` and `Graph::nameToNode()` <br>
 
 ### Tyler Cushing
 4/24 - 5/1: Developed interactive visualization in Python that takes in our CSV route and displays it on top of an Elden Ring map <br>

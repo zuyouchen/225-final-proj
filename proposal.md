@@ -4,7 +4,7 @@ How can we leverage a graph representation of Elden Ring’s bosses, graph trave
 1. **Graph Structure** - We will be representing the Elden Ring map as a weighted and directed graph where the nodes are each particular boss location and the edges are the travel times from boss to boss
 2. **Breadth-First-Search Traversal** - To answer the question of the shortest time to complete every boss in the game, we can utilize a BFS to traverse through the graph and visit every node.  
 4. **Dijkstra’s** - This is the algorithm we will implement to solve our leading question of the shortest path through all nodes (a 100% speedrun) and the shortest path between any single node and another (SSSP).  
-3. **Floyd-Warshall** - We want to know the shortest path between any two bosses A and B. So the shortest path between any pair. This can be interpreted as “splits” of a speedrun. This is essentially an all-pairs-shortest-path problem. We will find this using the Floyd-Warshall algorithm. 
+3. **Floyd-Warshall** - We want to know the shortest path's time between any two bosses A and B. So the shortest path time between any pair. This can be interpreted as “splits” of a speedrun. This is essentially an all-pairs-shortest-path problem. We will find this using the Floyd-Warshall algorithm. 
 5. **Graph Visualization** - We were looking to take advantage of some of the GUI functionality of Python, such as NumPy, MatPlotLib, and PySimpleGUI to visually represent our graph and highlight the result of our traversals.
 
 ## Dataset Acquisition and Processing
@@ -41,7 +41,7 @@ Floyd-Warshall Section 8.9 of larger paper, section titled "Floyd-Warshall algor
 
 Dijkstra’s returns a vector of nodes visited to show the path. 
 
-Floyd-Warshall returns a matrix where the value at position (i, j) represents the shortest path between nodes i and j. If there is no path between nodes i and j, the value at position (i, j) is infinity.
+Floyd-Warshall returns a matrix where the value at position (i, j) represents the shortest path's time between nodes i and j. If there is no path between nodes i and j, the value at position (i, j) is infinity.
 
 The BFS function returns a vector of nodes visited in order of a BFS traversal. 
 
@@ -64,7 +64,7 @@ To test our graph representation, we can create a simple graph and use the same 
 
 To test Dijkstra’s, we can write test cases to assert the amount of total time it takes to traverse the graph via our expected best path. Furthermore, using game knowledge, we can evaluate if the algorithm traversed makes sense given our constraints. We can write test cases where we assert or require that the amount of time should equal.
 
-To test Floyd-Warshall, we can create a simple graph and run our Floyd-Warshall algorithm to check for correct paths. We can also use some smaller examples from our larger graph (ex: nodes that are one or two edges apart) and compare with manual best-paths. 
+To test Floyd-Warshall, we can create a simple graph and run our Floyd-Warshall algorithm to check for correct path times. We can also use some smaller examples from our larger graph (ex: nodes that are one or two edges apart) and compare with manual best-path times. 
 
 To test BFS, our algorithm must print out every single node in the correct order.
 
@@ -77,7 +77,7 @@ Dataset acquisition (already mostly done)
 Build CSV file of graph representation (done)
 Code the graph representation  
 Complete traversal through the graph (BFS) (done)
-Code Djikstra’s algorithm  
-Code Floyd-Warshall to answer all-pairs-shortest-path
-Account for pre-requisites, fast-travel, etc. 
+Code Djikstra’s algorithm  (done)
+Code Floyd-Warshall to answer all-pairs-shortest-path (done)
+Account for pre-requisites, fast-travel, etc. (done)
 Visualize w/ Python  
