@@ -4,7 +4,7 @@ Final Project for CS 225 in Spring 2023, created by Malcolm Kaplan, Evan Chen, T
 ## File Organization
 
 ### ```\```
-Project configuration files and project reports (README.md, Makefile, contract.md, proposal.md, etc).
+Project configuration files and project reports (README.md, results.md, a link to the presentation, Makefile, contract.md, proposal.md, etc).
 ### ```\data```
 Contains all the input files. Includes a small test csv of nodes and one of prereqs, as well as our actual Elden Ring node csv and prerequisite csv.
 ### ```\output```
