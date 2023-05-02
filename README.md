@@ -13,6 +13,8 @@ This folder includes all three output files: allrem-output.csv, anypercent-outpu
 Includes our two entry points for the program: the main exec file and the test file.
 ### ```\src```
 Includes our graph.cpp and graph.h files, which define the node structure, the graph structure, and all of our algorithms run on the graph (BFS, Dijkstra's, Floyd-Warshall, and helper methods to read data in, add nodes and edges, etc. Basically everything except the visualization code is present here).
+### ```\Visualization```
+Contains all of the files for the visualization aspect of the prospect.
 
 ## Installation
 
