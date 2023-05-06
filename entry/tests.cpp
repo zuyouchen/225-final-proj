@@ -97,7 +97,7 @@ void testBFS()
     vector<Graph::Node *> bfs_result2 = g2.BFS(nodes2[0]);
 
     // Output
-    g2.VectorToCSV(bfs_result2, "/workspaces/cs225env/225-final-proj/data/bfs-output.csv", bfs);
+    g2.VectorToCSV(bfs_result2, "output/bfs-output.csv", bfs);
 
     // Test BFS visits every node
     assert(bfs_result2.size() == nodes2.size());
@@ -111,7 +111,7 @@ void testDijkstra()
     vector<Graph::Node *> dijkstra_result = g2.Dijkstra(nodes2[0], allremembrances);
 
     // write to file for testing
-    g2.VectorToCSV(dijkstra_result, "/workspaces/cs225env/225-final-proj/data/allrem-output.csv", allremtime);
+    g2.VectorToCSV(dijkstra_result, "output/allrem-output.csv", allremtime);
 
     // make sure we hit every node
     assert(dijkstra_result.size() == nodes2.size());
@@ -122,7 +122,7 @@ void testAnypercent()
     Graph g("data/nodes.csv", "data/prereqs.csv");
     vector<Graph::Node *> nodes = g.getNodes();
     vector<Graph::Node *> dijkstra_result = g.Dijkstra(nodes[0], anypercent);
-    g.VectorToCSV(dijkstra_result, "/workspaces/cs225env/225-final-proj/data/anypercent-output.csv", anypercenttime);
+    g.VectorToCSV(dijkstra_result, "output/anypercent-output.csv", anypercenttime);
 
     int shard_bearers_visited = 0;
     for (size_t i = 0; i < dijkstra_result.size(); ++i)
