@@ -75,6 +75,15 @@ The test suite provides comprehensive checks for all major and minor methods wit
 
 7) Finally, select OK, and observe
 
+## Troubleshooting the Visualization
+1) If the above steps didn't seem to correctly open the visualization, open up a new terminal (Powershell/Command Line it doesn't matter)
+
+2) Make sure all of the files are already on your Desktop and in your terminal, invoke the `cd` command until you're able to `cd` into your Desktop
+
+3) Here, you have several options, you can either drag the `.bat` file onto the terminal once it's open and in your Desktop, you can run the command `python visualization.py` (or alternatively `python3 visualization.py` but I've had less success with this command) 
+
+4) If any of the above doesn't work still, in the absolute worst case this script has been tested with several text editors, so you should hypothetically be able to create a project directory, put the `map.jpg` file and the `visualization.py` file into the same directory, open the `visualization.py` file in any text editor and build it from there
+
 
 ## Input and Outputs for Each Method
 
