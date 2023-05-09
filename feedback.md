@@ -1,6 +1,7 @@
-**56.8 / 60pts**
+** 57.2 / 60 pts **
 
 Proposal & Project submission - 10pts
+
 Presentation, Readme & Report - 10pts
 
 Deliverables:
@@ -11,9 +12,8 @@ BFS: 3.4 pts
 - BFS testing is not sufficient. You only test the sizes of the path returned; what about the path itself?
 - Runtime met
 
-Dijkstra's: 2.8pts
+Dijkstra's: 3.2pts
 - There was a mix of unordered_map and map. Recall map is O(logn) and less efficient, and introduced some extra inefficiencies (i.e. dist and prev). Complexity not impacted but inefficient
-- There is a flaw; just because a node is not visited does not mean a shorter path doesn't exist! This extra conditional can keep you from finding the optimal path.
 - Similar to BFS, the Dijkstra tests were not sufficient; comparison of path length does not imply a correct path, and while there is an additional test for Dijkstra's, it only checks shard bearers and the last vertex.
 - Runtime met
 
@@ -31,7 +31,7 @@ Misc (Graph & Execution): 3pts
 - Graph construction is not optimally efficient either because addEdge is O(|V|). This should be O(1).
 - Why is the graph reconstructed for every algorithm in main? Your algorithm should not mutate the graph; all of these algorithms are effectively traversals and shouldn't mutate the graph structure itself.
 
-Total points: 10 + 10 + 20 + 3.4 + 2.8 + 3.8 + 3.8 + 3 = 56.8pts
+Total points: 10 + 10 + 20 + 3.4 + 3.2 + 3.8 + 3.8 + 3 = 57.2pts
 
 General notes (unrelated to grading):
 - Cool project, I love the scope of it and the goal.
@@ -40,7 +40,7 @@ General notes (unrelated to grading):
 - How come there is not a path from Red Wolf to Godrick....? You can skip Stormveil and go to Raya Lucaria first?
 - In some of your documentation you claimed runtimes such as O(n), but did not tell me what n is. What is n? Always define your variables in a formal setting!
 - Fun little application of nearest neighbors (python makes it so easy..)
-- Note that even though Dijkstra's is greedy, it is optimal. So even if you did a non-greedy SSSP algorithm, it would produce the same result. I think the big issue with Dijkstra's vs speed runners, as you mentioned, is the ability for speedrunners to plan accordingly. This could be accomplished, I believe, with a much more complicated graph structure, though.
+- Note that even though Dijkstra's is greedy, it is optimal. So even if you did a non-greedy SSSP algorithm, it would produce the same result. I think the big issue with Dijkstra's vs speed runners, as you mentioned, is the ability for speedrunners to plan accordingly. This could be accomplished, I believe, with a much more complicated graph structure and layering, though.
 - I was very glad to see the update to Dijkstra's and the usage of PQ. Initially, your proposal had a worse runtime, and a naive approach to Dijkstra's. I'm very pleased to see you reconsidered.
 - Always consider the underlying runtime of every data structure you use and the functions you are calling for it :)
 
